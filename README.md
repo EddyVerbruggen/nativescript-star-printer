@@ -12,7 +12,7 @@
 
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app.gif" width="328px" height="577px" />
 
-_That's the demo app in action, printing on a Star Micronics TSP650II_
+_That's [the demo app](https://github.com/EddyVerbruggen/nativescript-star-printer/tree/master/demo) in action, printing on a Star Micronics TSP650II_
 
 ## Installation
 ```bash
@@ -32,7 +32,7 @@ var starPrinter = new StarPrinterPlugin.StarPrinter();
 
 #### TypeScript
 ```js
-import { StarPrinter } from "nativescript-star-printer";
+import { StarPrinter, SPPrinter, SPCommands } from "nativescript-star-printer";
 
 export Class MyPrintingClass {
   private starPrinter: StarPrinter;
@@ -70,10 +70,7 @@ this.starPrinter.print({
 });
 ```
 
-So what are those `commands`?
-
-Let's look at the various commands you can send to the printer by recreating the receipt
-we're using in [the demo app](demo/app/main-page.ts) as well.
+So what are those `commands`? Let's recreate the receipt below to answer that:
 
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt.jpg" width="400px" />
 
