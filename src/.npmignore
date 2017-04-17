@@ -1,5 +1,5 @@
 *.map
 *.ts
-!index.d.ts
+!*.d.ts
 tsconfig.json
 platforms/ios_lib
