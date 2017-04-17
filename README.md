@@ -10,9 +10,9 @@
 [twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
 [twitter-url]:https://twitter.com/eddyverbruggen
 
-<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/media/demo-app.gif" width="328px" height="577px" />
+<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app.gif" width="328px" height="577px" />
 
-_That's the demo app in action, printing on a Star TSP650II_
+_That's the demo app in action, printing on a Star Micronics TSP650II_
 
 ## Installation
 ```bash
@@ -43,7 +43,7 @@ export Class MyPrintingClass {
 }
 ```
 
-### searchPrinters
+### `searchPrinters`
 If you're searching for a Bluetooth printer, enable Bluetooth in the device settings
 and pair/connect the printer. Then do:
 
@@ -60,7 +60,7 @@ this.starPrinter.searchPrinters().then(
 The only useful property on the `SPPrinter` class is the `portName` which you will need
 in other API methods.
 
-### print
+### `print`
 Once you've got the port of the printer you want to print on, just do:
 
 ```js
@@ -75,38 +75,29 @@ So what are those `commands`?
 Let's look at the various commands you can send to the printer by recreating the receipt
 we're using in [the demo app](demo/app/main-page.ts) as well.
 
-<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/media/demo-app-receipt.jpg" width="400px" />
+<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt.jpg" width="400px" />
 
 ```js
 // Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our columns
 let commands = new SPCommands()
     .alignCenter() // designates the start of center-aligned text. Use alignLeft() to.. guess what :)
-    .text("My Awesome Boutique")
+    .text(     "My Awesome Boutique").newLine()
+    .text(     "In a shop near you").newLine()
+    .text(     "Planet Earth").newLine()
     .newLine()
-    .text("In a shop near you")
-    .newLine()
-    .text("Planet Earth")
-    .newLine()
-    .newLine()
-    .text("Date: 11/11/2017                   Time: 3:15 PM")
+    .text(     "Date: 11/11/2017                   Time: 3:15 PM")
     .horizontalLine() // Note that horizontal lines include newLine() commands as well
-    .newLine()
-    .textBold("SKU           Description                  Total")
-    .newLine()
-    .text("300678566     Plain White Tee              10.99")
-    .newLine()
-    .text("300692003     Black Denim                  29.99")
-    .newLine()
-    .text("300651148     Blue Denim                   29.99")
-    .newLine()
-    .newLine()
-    .text("Subtotal                                   70.97")
-    .newLine()
-    .text("VAT                                         4.03")
+    .newLine() // .. because of that, this will add a blank line
+    .textBold( "SKU           Description                  Total").newLine()
+    .text(     "300678566     Plain White Tee              10.99").newLine()
+    .text(     "300692003     Black Denim                  29.99").newLine()
+    .text(     "300651148     Blue Denim                   29.99").newLine()
+    .newLine() // blank line
+    .text(     "Subtotal                                   70.97").newLine()
+    .text(     "VAT                                         4.03")
     .horizontalLine()
-    .text("Total                                 ")
-    .textLarge("75.00") // Note that large text takes up double the space
-    .newLine()
+    .text(     "Total                                 ")
+    .textLarge("75.00").newLine() // Note that large text takes up double the space
     .newLine()
     .cutPaper(); // this makes the receipt much easier to tear off :)
 
