@@ -75,16 +75,16 @@ So what are those `commands`? Let's recreate the receipt below to answer that:
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt.jpg" width="400px" />
 
 ```js
-// Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our columns
+// Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our "columns"
 let commands = new SPCommands()
     .alignCenter() // designates the start of center-aligned text. Use alignLeft() to.. guess what :)
     .text(     "My Awesome Boutique").newLine()
     .text(     "In a shop near you").newLine()
     .text(     "Planet Earth").newLine()
-    .newLine()
+    .newLine() // this will draw a blank line
     .text(     "Date: 11/11/2017                   Time: 3:15 PM")
     .horizontalLine() // Note that horizontal lines include newLine() commands as well
-    .newLine() // .. because of that, this will add a blank line
+    .newLine() // blank line
     .textBold( "SKU           Description                  Total").newLine()
     .text(     "300678566     Plain White Tee              10.99").newLine()
     .text(     "300692003     Black Denim                  29.99").newLine()
