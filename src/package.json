@@ -24,7 +24,6 @@
     "setupandinstall": "npm i && cd ../demo && npm i && cd ../src && npm run build && cd ../demo && tns plugin add ../src && cd ../src",
     "tslint": "tslint *.ts",
     "tslint.demo": "tslint ../demo/app/*.ts",
-    "postclone": "npm i && node scripts/postclone.js",
     "prepublish": "npm run build",
     "development.setup": "npm run setup && npm link && cd ../demo && npm link nativescript-star-printer && cd ../src"
   },
