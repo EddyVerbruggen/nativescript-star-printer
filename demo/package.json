@@ -26,8 +26,5 @@
     "lazy": "1.0.11",
     "nativescript-dev-typescript": "^0.3.7",
     "typescript": "^2.1.0"
-  },
-  "scripts": {
-    "cleanruntestfwk.ios": "cp -R /Users/eddyverbruggen/Library/Developer/Xcode/DerivedData/StarPrinter-hdyulscshuibmkeegbrzvmztfwem/Build/Products/Debug-iphoneos/StarPrinter.framework ../src/platforms/ios/ && rm -rf platforms/ios && tns run ios --syncAllFiles"
   }
 }
