@@ -34,7 +34,7 @@ var starPrinter = new StarPrinterPlugin.StarPrinter();
 ```
 
 #### TypeScript
-```js
+```typescript
 import { StarPrinter, SPPrinter, SPCommands } from "nativescript-star-printer";
 
 export Class MyPrintingClass {
@@ -50,14 +50,13 @@ export Class MyPrintingClass {
 If you're searching for a Bluetooth printer, enable Bluetooth in the device settings
 and pair/connect the printer. Then do:
 
-```js
+```typescript
 this.starPrinter.searchPrinters().then(
     (printers: Array<SPPrinter>) => {
       console.log(`Found ${printers.length} printers`);
     }, (err: string) => {
       console.log(`Search printers error: ${err}`);
     });
-}
 ```
 
 The only useful property on the `SPPrinter` class is the `portName` which you will need
@@ -66,7 +65,7 @@ in other API methods.
 ### `print`
 Once you've got the port of the printer you want to print on, just do:
 
-```js
+```typescript
 this.starPrinter.print({
   portName: this.selectedPrinterPort,
   commands: commands
@@ -77,7 +76,7 @@ So what are those `commands`? Let's recreate the receipt below to answer that:
 
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt.jpg" width="400px" />
 
-```js
+```typescript
 // Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our "columns"
 let commands = new SPCommands()
     .alignCenter() // designates the start of center-aligned text. Use alignLeft() to.. guess what :)
