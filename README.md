@@ -106,6 +106,18 @@ this.starPrinter.print({
 });
 ```
 
+## iOS runtime permission reason
+iOS 10+ requires a permission popup when connecting (the first) time to a Bluetooth peripheral explaining *why* it needs to connect.
+
+You can provide your own reason by adding something like this to `app/App_Resources/ios/Info.plist`:
+
+```xml
+  <key>NSBluetoothPeripheralUsageDescription</key>
+  <string>My reason justifying fooling around with your Bluetooth</string>
+```
+
+_To not crash your app in case you forgot to provide the reason this plugin adds an empty reason to the `.plist` during build. This value gets overridden by anything you specified yourself. You're welcome._
+
 ## Known limitations
 On iOS you want to run this on a real device.
 
