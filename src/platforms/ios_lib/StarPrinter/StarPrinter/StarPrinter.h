@@ -1,4 +1,4 @@
-// In this header, you should import all the public headers of your framework using statements
+// In this header, you should import all the public headers of your framework
 #import "TNSStarPrinter.h"
 
 //! Project version number for StarPrinter.
