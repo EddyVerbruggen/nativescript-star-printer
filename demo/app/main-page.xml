@@ -8,6 +8,7 @@
     <Button text="{{ 'Reconnect ' + lastConnectedPrinterPort }}" tap="{{ doConnect }}" class="button button-b" visibility="{{  lastConnectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Print" tap="{{ doPrint }}" class="button button-c" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Open cash drawer" tap="{{ doOpenCashDrawer }}" class="button button-d" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
+    <Button text="Disconnect" tap="{{ doDisconnect }}" class="button button-e" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
 
     <ActivityIndicator busy="{{ isLoading }}" />
 

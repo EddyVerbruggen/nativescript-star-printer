@@ -106,6 +106,16 @@ this.starPrinter.print({
 });
 ```
 
+### `openCashDrawer`
+When a cash drawer is connected via the UTP (network) connector of the Star printer,
+you can open the drawer from your code!
+
+```typescript
+this.starPrinter.openCashDrawer({
+  portName: this.selectedPrinterPort
+});
+```
+
 ## iOS runtime permission reason
 iOS 10+ requires a permission popup when connecting (the first) time to a Bluetooth peripheral explaining *why* it needs to connect.
 
@@ -123,6 +133,4 @@ On iOS you want to run this on a real device.
 
 
 ## Future work
-Test and expose a method called `openCashDrawer`.
-
 Possibly add more `print` formatting options.

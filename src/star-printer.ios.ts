@@ -85,7 +85,7 @@ export class StarPrinter implements StarPrinterApi {
 
   private initStarPrinter(portName: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      // TODO compare connect to this.connect
+      // note that the native lib caches the connection, so this is very quick the second time
       TNSStarPrinter.connectOnComplete(portName, (connected: boolean) => {
         resolve(connected);
       });
@@ -138,6 +138,18 @@ export class StarPrinter implements StarPrinterApi {
         // which is not implemented at the moment. Workaround: go to settings > Bluetooth and connect the device.
         TNSStarPrinter.connectOnComplete(options.portName, (connected: boolean) => {
           resolve(connected);
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  disconnect(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        TNSStarPrinter.disconnect((disconnected: boolean) => {
+          resolve(disconnected);
         });
       } catch (e) {
         reject(e);

@@ -6,11 +6,9 @@ static StarIoExtManager *_starIoExtManager;
 
 + (void)searchPrinters:(void(^)(NSArray* printers))completionHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"--- native searchPrinters 3");
         NSMutableArray *printers = [NSMutableArray new];
 
         for (PortInfo *portInfo in  [SMPort searchPrinter]) {
-            NSLog(@"starPrinter.portName: %@", [portInfo portName]);
             NSMutableDictionary *dict = [NSMutableDictionary new];
             [dict setObject:[portInfo portName] forKey:@"portName"];
             [dict setObject:[portInfo macAddress] forKey:@"macAddress"];
@@ -33,11 +31,18 @@ static StarIoExtManager *_starIoExtManager;
 //        _starIoExtManager.delegate = self;
     }
 
-    if (_starIoExtManager.port != nil) {
-        [_starIoExtManager disconnect];
-    }
+//    if (_starIoExtManager.port != nil) {
+//        [_starIoExtManager disconnect];
+//    }
     
     completionHandler([_starIoExtManager connect]);
+}
+
++ (void)disconnect:(void(^)(BOOL disconnected))completionHandler {
+    if (_starIoExtManager != nil) {
+        completionHandler([_starIoExtManager disconnect]);
+        _starIoExtManager = nil;
+    }
 }
 
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler {
@@ -80,9 +85,7 @@ static StarIoExtManager *_starIoExtManager;
             NSDate *startDate = [NSDate date];
             
             uint32_t total = 0;
-            
-            NSLog(@"Going to print %d commands", commandLength);
-            
+
             while (total < commandLength) {
                 uint32_t written = [port writePort:commandsBytes :total :commandLength - total];
                 total += written;
@@ -96,8 +99,6 @@ static StarIoExtManager *_starIoExtManager;
                 break;
             }
             
-            NSLog(@"Printed %d commands", total);
-
             port.endCheckedBlockTimeoutMillis = 30000; // 30000ms
             
             [port endCheckedBlock:&printerStatus :2];

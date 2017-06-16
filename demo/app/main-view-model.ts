@@ -112,9 +112,24 @@ export class HelloWorldModel extends Observable {
     });
   }
 
+  public doDisconnect(): void {
+    this.starPrinter.disconnect().then((disconnected: boolean) => {
+      if (disconnected) {
+        this.printers.splice(0);
+        this.set(HelloWorldModel.SELECTED_PRINTER_KEY, undefined);
+      } else {
+        alert({
+          title: "Connection failed?",
+          message: "Connect via the Bluetooth settings of your device",
+          okButtonText: "OK, will do"
+        });
+      }
+    });
+  }
+
   public doOpenCashDrawer(): void {
     this.starPrinter.openCashDrawer({
-      portName: this.selectedPrinter.portName
+      portName: this.selectedPrinterPort
     });
   }
 }

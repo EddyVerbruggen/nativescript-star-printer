@@ -8,6 +8,8 @@
 
 + (void)connect:(NSString *)portName onComplete:(void(^)(BOOL connected))completionHandler;
 
++ (void)disconnect:(void(^)(BOOL connected))completionHandler;
+
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler;
 
 @end

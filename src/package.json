@@ -1,6 +1,6 @@
 {
   "name": "nativescript-star-printer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Print directly to Star printers from your NativeScript app.",
   "main": "star-printer",
   "typings": "index.d.ts",

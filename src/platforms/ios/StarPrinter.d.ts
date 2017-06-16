@@ -9,6 +9,8 @@ declare class TNSStarPrinter extends NSObject {
 
 	static connectOnComplete(portName: string, completionHandler: (p1: boolean) => void): void;
 
+	static disconnect(completionHandler: (p1: boolean) => void): void;
+
 	static new(): TNSStarPrinter; // inherited from NSObject
 
 	static searchPrinters(completionHandler: (p1: NSArray<any>) => void): void;

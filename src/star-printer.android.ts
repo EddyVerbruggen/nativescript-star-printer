@@ -13,6 +13,7 @@ declare let com: any;
 const StarIOPort: any = com.starmicronics.stario.StarIOPort;
 const ICommandBuilder: any = com.starmicronics.starioextension.ICommandBuilder;
 
+// see http://www.starmicronics.com/support/SDKDocumentation.aspx
 export class SPCommands extends SPCommandsCommon {
   private builder: any;
   private encoding: any;
@@ -24,13 +25,18 @@ export class SPCommands extends SPCommandsCommon {
     return this;
   }
 
-  static getBuilder(): void {
+  private static getBuilder(): void {
     let builder = com.starmicronics.starioextension.StarIoExt.createCommandBuilder(
         com.starmicronics.starioextension.StarIoExt.Emulation.None);
     builder.beginDocument();
     builder.appendCodePage(ICommandBuilder.CodePageType.UTF8);
     builder.appendInternational(ICommandBuilder.InternationalType.USA);
     return builder;
+  }
+
+  raw(value: any): SPCommandsCommon {
+    this.builder.append(value);
+    return this;
   }
 
   text(value: string): SPCommandsCommon {
@@ -137,21 +143,55 @@ export class StarPrinter implements StarPrinterApi {
   }
 
   connect(options: SPConnectOptions): Promise<boolean> {
-    // TODO not sure we need to anyway
+    // doesn't look like we need to do this
     return new Promise((resolve, reject) => {
       resolve(true);
+    });
+  }
+
+  disconnect(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        // same as connect
+        resolve(true);
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        // TODO
-        // this.initStarPrinter("BT:Star Micronics");
-        // let commands: any = NSMutableData.data();
-        // this.appendBytes(commands, [0x07]); // ?
-        // this.openDrawer(commands);
-        // this.sendCommandsToPrinter(commands);
+        let port = StarIOPort.getPort(options.portName, "", 10000, utils.ad.getApplicationContext());
+        if (port === null) {
+          console.log("no port");
+          reject("no port");
+          return;
+        }
+
+        // not sure this timeout is needed, but it doesn't hurt either
+        setTimeout(() => {
+          let printerStatus = port.beginCheckedBlock();
+
+          if (printerStatus.offline) {
+            reject("printer offline");
+            return;
+          }
+
+          let spCommands = new SPCommands();
+          spCommands.raw(0x07);
+
+          let commands: any = spCommands.getCommands();
+          port.writePort(commands, 0, commands.length);
+          port.setEndCheckedBlockTimeoutMillis(10000);
+          printerStatus = port.endCheckedBlock();
+
+          // assuming
+          console.log("Open drawer success! printerStatus: " + printerStatus);
+          resolve();
+        }, 100);
+
         resolve();
       } catch (e) {
         console.log("---- caught e: " + e);

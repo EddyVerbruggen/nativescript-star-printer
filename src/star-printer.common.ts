@@ -52,6 +52,7 @@ export interface SPPrintOptions {
 export interface StarPrinterApi {
   searchPrinters(options?: SPSearchPrinterOptions): Promise<Array<SPPrinter>>;
   connect(options: SPConnectOptions): Promise<boolean>;
+  disconnect(): Promise<boolean>;
   print(options: SPPrintOptions): Promise<any>;
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any>;
 }
