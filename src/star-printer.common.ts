@@ -8,6 +8,14 @@ export class SPPrinter {
   }
 }
 
+export interface SPBarcodeCommand {
+  value: string;
+  width?: "small" | "medium" | "large"; // default "medium"
+  height?: number; // default 40
+  type?: "Code128"; // default "Code128" because that's currently the only option ;)
+  appendEncodedValue?: boolean; // default false
+}
+
 export abstract class SPCommandsCommon {
   constructor() {
   }
@@ -23,10 +31,11 @@ export abstract class SPCommandsCommon {
   abstract cutPaper(): SPCommandsCommon;
   abstract alignCenter(): SPCommandsCommon;
   abstract alignLeft(): SPCommandsCommon;
+  abstract barcode(options: SPBarcodeCommand): SPCommandsCommon;
 
   horizontalLine(): SPCommandsCommon {
     this.newLine();
-    // assuming 3" paper roll
+    // assuming 3" paper roll (48 characters)
     this.text("------------------------------------------------");
     return this.newLine();
   }

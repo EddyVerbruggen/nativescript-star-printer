@@ -1,8 +1,8 @@
-import { Observable } from "data/observable";
-import { alert } from "ui/dialogs";
-import * as AppSettings from "application-settings";
+import { Observable } from "tns-core-modules/data/observable";
+import { alert } from "tns-core-modules/ui/dialogs";
+import * as AppSettings from "tns-core-modules/application-settings";
+import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { SPCommands, SPPrinter, StarPrinter } from "nativescript-star-printer";
-import { ObservableArray } from "data/observable-array";
 
 export class HelloWorldModel extends Observable {
   private static LOADING_KEY = "isLoading";
@@ -40,7 +40,7 @@ export class HelloWorldModel extends Observable {
           this.set(
               HelloWorldModel.LAST_CONNECTED_PORT_KEY,
               AppSettings.getString(HelloWorldModel.LAST_CONNECTED_PORT_KEY, null));
-          console.log("Found printers: " + printers.length);
+          console.log("Found printers: " + JSON.stringify(printers));
           this.printers.push(printers);
           this.set(HelloWorldModel.LOADING_KEY, false);
         }, (err: string) => {
@@ -83,6 +83,15 @@ export class HelloWorldModel extends Observable {
         .horizontalLine()
         .text("Total                                 ")
         .textLarge("75.00")
+        .newLine()
+        .newLine()
+        .barcode({
+          value: "12345",
+          height: 40,
+          type: "Code128",
+          width: "large",
+          appendEncodedValue: true
+        })
         .newLine()
         .newLine()
         .cutPaper();

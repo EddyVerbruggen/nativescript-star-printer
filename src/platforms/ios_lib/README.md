@@ -2,6 +2,13 @@ Custom StarIO framework for iOS apps.
 
 I'm using this wrapper to circumvent some pointer release issues when using {N}-StarIO SDK interaction.
 
+### Download the dependencies before opening Xcode
+- Go to http://www.starmicronics.com/support/SDKDocumentation.aspx
+- The browse to the 'Developers' section..
+- .. then iOS > etc
+- Copy those files to the `ios_lib/StarPrinter/` folder.
+- You can now open Xcode.
+
 ### Building the framework
 - Run the target for simulator and device (disconnect the device to be sure), make sure to not only build for the active architecture.
 - Right-click the file in the Products folder and open in Finder.

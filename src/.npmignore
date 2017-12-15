@@ -3,3 +3,4 @@
 !*.d.ts
 tsconfig.json
 platforms/ios_lib
+platforms/ios/StarPrinter.d.ts

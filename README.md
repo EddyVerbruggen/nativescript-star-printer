@@ -59,8 +59,10 @@ this.starPrinter.searchPrinters().then(
     });
 ```
 
-The only useful property on the `SPPrinter` class is the `portName` which you will need
+The most useful property on the `SPPrinter` class is the `portName` which you will need
 in other API methods.
+
+The only other property is `modelName`.
 
 ### `print`
 Once you've got the port of the printer you want to print on, just do:
@@ -97,6 +99,16 @@ let commands = new SPCommands()
     .horizontalLine()
     .text(     "Total                                 ")
     .textLarge("75.00").newLine() // Note that large text takes up double the space
+    .newLine()
+    .newLine()
+    // barcode is currently only supported on iOS
+    .barcode({
+      value: "12345",
+      height: 40,
+      type: "Code128",
+      width: "large",
+      appendEncodedValue: true
+    })
     .newLine()
     .cutPaper(); // this makes the receipt much easier to tear off :)
 

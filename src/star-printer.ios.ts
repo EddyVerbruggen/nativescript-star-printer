@@ -1,4 +1,5 @@
 import {
+  SPBarcodeCommand,
   SPCommandsCommon, SPConnectOptions,
   SPOpenCashDrawerOptions,
   SPPrinter,
@@ -7,7 +8,7 @@ import {
   StarPrinterApi
 } from "./star-printer.common";
 
-declare const NSMutableData: any;
+declare const ISCBBuilder: any;
 
 /**
  * Note that there's a command builder for iOS as well,
@@ -59,6 +60,18 @@ export class SPCommands extends SPCommandsCommon {
 
   newLine(): SPCommandsCommon {
     return this.appendData("\r\n");
+  }
+
+  barcode(options: SPBarcodeCommand): SPCommandsCommon {
+    const code128 = 0x06; // according to page 61 of http://www.starmicronics.com/support/mannualfolder/starline_cm_rev1.15_en.pdf
+    const appendEncodedValue = +('0x0' + (options.appendEncodedValue === false ? 1 : 2));
+    const height = +('0x' + options.height ? options.height : 40);
+    const mode = +('0x0' + (!options.width || options.width === "medium" ? 2 : (options.width === "large" ? 3 : 1)));
+
+    this.appendBytes([0x1b, 0x62, code128, appendEncodedValue, mode, height]);
+    this.appendData(options.value);
+    this.appendBytes([0x1e]);
+    return this;
   }
 
   cutPaper(): SPCommandsCommon {

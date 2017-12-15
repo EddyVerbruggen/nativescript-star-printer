@@ -1,5 +1,6 @@
-import * as utils from "utils/utils";
+import * as utils from "tns-core-modules/utils/utils";
 import {
+  SPBarcodeCommand,
   SPCommandsCommon,
   SPConnectOptions,
   SPOpenCashDrawerOptions,
@@ -76,6 +77,11 @@ export class SPCommands extends SPCommandsCommon {
 
   alignLeft(): SPCommandsCommon {
     this.builder.appendAlignment(ICommandBuilder.AlignmentPosition.Left);
+    return this;
+  }
+
+  barcode(options: SPBarcodeCommand): SPCommandsCommon {
+    // TODO, one day.. not that hard since we can use the builder (getBuilder()...)
     return this;
   }
 
