@@ -25,7 +25,8 @@
     "tslint": "tslint *.ts",
     "tslint.demo": "tslint ../demo/app/*.ts",
     "prepublish": "npm run build",
-    "development.setup": "npm run setup && npm link && cd ../demo && npm link nativescript-star-printer && cd ../src"
+    "development.setup": "npm run setup && npm link && cd ../demo && npm link nativescript-star-printer && cd ../src",
+    "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'"
   },
   "repository": {
     "type": "git",

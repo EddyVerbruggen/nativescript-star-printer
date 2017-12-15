@@ -86,10 +86,10 @@ export class HelloWorldModel extends Observable {
         .newLine()
         .newLine()
         .barcode({
-          value: "12345",
-          height: 40,
           type: "Code128",
+          value: "12345",
           width: "large",
+          height: 40,
           appendEncodedValue: true
         })
         .newLine()

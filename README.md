@@ -103,10 +103,10 @@ let commands = new SPCommands()
     .newLine()
     // barcode is currently only supported on iOS
     .barcode({
-      value: "12345",
-      height: 40,
       type: "Code128",
+      value: "12345",
       width: "large",
+      height: 40,
       appendEncodedValue: true
     })
     .newLine()
