@@ -8,8 +8,6 @@ import {
   StarPrinterApi
 } from "./star-printer.common";
 
-declare const ISCBBuilder: any;
-
 /**
  * Note that there's a command builder for iOS as well,
  * but not everything is exposed to the metadata, so we're not using that.
@@ -20,7 +18,15 @@ export class SPCommands extends SPCommandsCommon {
   constructor() {
     super();
     this._commands = NSMutableData.data();
+    this.setCodepageUtf8();
+    // a smaller font can be set like this: this.appendBytes([0x1b, 0x1e, 0x46, 0x01]);
     return this;
+  }
+
+  private setCodepageUtf8(): void {
+    // set characterset here, so we can print beyond the ascii range
+    // UTF8 = hex(128) = dec(80) (see https://ascii.cl/conversion.htm)
+    this.appendBytes([0x1b, 0x1d, 0x74, 0x80]);
   }
 
   text(value: string): SPCommandsCommon {
@@ -63,7 +69,7 @@ export class SPCommands extends SPCommandsCommon {
   }
 
   barcode(options: SPBarcodeCommand): SPCommandsCommon {
-    const code128 = 0x06; // according to page 61 of http://www.starmicronics.com/support/mannualfolder/starline_cm_rev1.15_en.pdf
+    const code128 = 0x06; // according to page 61 of http://www.starmicronics.com/support/Mannualfolder/starline_cm_en.pdf
     const appendEncodedValue = +('0x0' + (options.appendEncodedValue === false ? 1 : 2));
     const height = +('0x' + options.height ? options.height : 40);
     const mode = +('0x0' + (!options.width || options.width === "medium" ? 2 : (options.width === "large" ? 3 : 1)));
@@ -79,7 +85,7 @@ export class SPCommands extends SPCommandsCommon {
   }
 
   private appendData(text: string): SPCommandsCommon {
-    this._commands.appendData(NSString.stringWithString(text).dataUsingEncoding(NSASCIIStringEncoding));
+    this._commands.appendData(NSString.stringWithString(text).dataUsingEncoding(NSUTF8StringEncoding));
     return this;
   }
 

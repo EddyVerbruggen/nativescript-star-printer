@@ -70,29 +70,21 @@ export class HelloWorldModel extends Observable {
         .newLine()
         .textBold("SKU           Description                  Total")
         .newLine()
-        .text("300678566     Plain White Tee              10.99")
+        .text("300678566     Plain White Tee             €10.99") // testing '€'
         .newLine()
-        .text("300692003     Black Denim                  29.99")
+        .text("300692003     Black Dénim                 €29.99") // testing 'é'
         .newLine()
-        .text("300651148     Blue Denim                   29.99")
+        .text("300651148     Blue Denim                  €29.99")
         .newLine()
-        .newLine()
-        .text("Subtotal                                   70.97")
-        .newLine()
-        .text("VAT                                         4.03")
-        .horizontalLine()
-        .text("Total                                 ")
-        .textLarge("75.00")
         .newLine()
         .newLine()
         .barcode({
           type: "Code128",
-          value: "12345",
+          value: "12345678",
           width: "large",
-          height: 40,
-          appendEncodedValue: true
+          height: 60,
+          appendEncodedValue: false
         })
-        .newLine()
         .newLine()
         .cutPaper();
 
