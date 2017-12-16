@@ -74,43 +74,36 @@ this.starPrinter.print({
 });
 ```
 
-So what are those `commands`? Let's recreate the receipt below to answer that:
+So what are those `commands`? Let's recreate the fake receipt below to answer that:
 
-<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt.jpg" width="400px" />
+<img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt-with-barcode.jpg" width="500px" />
 
 ```typescript
 // Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our "columns"
 let commands = new SPCommands()
-    .alignCenter() // designates the start of center-aligned text. Use alignLeft() to.. guess what :)
-    .text(     "My Awesome Boutique").newLine()
-    .text(     "In a shop near you").newLine()
-    .text(     "Planet Earth").newLine()
-    .newLine() // this will draw a blank line
-    .text(     "Date: 11/11/2017                   Time: 3:15 PM")
-    .horizontalLine() // Note that horizontal lines include newLine() commands as well
-    .newLine() // blank line
-    .textBold( "SKU           Description                  Total").newLine()
-    .text(     "300678566     Plain White Tee              10.99").newLine()
-    .text(     "300692003     Black Denim                  29.99").newLine()
-    .text(     "300651148     Blue Denim                   29.99").newLine()
-    .newLine() // blank line
-    .text(     "Subtotal                                   70.97").newLine()
-    .text(     "VAT                                         4.03")
+    .alignCenter()
+    .text("My Awesome Boutique").newLine()
+    .text("In a shop near you").newLine()
+    .text("Planet Earth").newLine()
+    .newLine()
+    .text("Date: 11/11/2017                   Time: 3:15 PM")
     .horizontalLine()
-    .text(     "Total                                 ")
-    .textLarge("75.00").newLine() // Note that large text takes up double the space
+    .newLine()
+    .textBold("SKU           Description                  Total").newLine()
+    .text("300678566     Plain White Tee             €10.99").newLine()
+    .text("300692003     Black Dénim                 €29.99").newLine()
+    .text("300651148     Blue Denim                  €29.99").newLine()
     .newLine()
     .newLine()
-    // barcode is currently only supported on iOS
     .barcode({
       type: "Code128",
-      value: "12345",
+      value: "12345678",
       width: "large",
-      height: 40,
-      appendEncodedValue: true
+      height: 60,
+      appendEncodedValue: false
     })
     .newLine()
-    .cutPaper(); // this makes the receipt much easier to tear off :)
+    .cutPaper();
 
 this.starPrinter.print({
   portName: this.selectedPrinterPort,
