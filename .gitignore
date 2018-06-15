@@ -9,6 +9,7 @@
 !demo/karma.conf.js
 !demo/app/tests/*.js
 src/*.d.ts
+src/platforms/android/nativescript_star_printer.aar
 !src/index.d.ts
 !src/references.d.ts
 demo/lib

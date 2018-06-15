@@ -16,27 +16,29 @@ export interface SPBarcodeCommand {
   appendEncodedValue?: boolean; // default false
 }
 
+export type PrinterFont = "default" | "smaller";
+
 export abstract class SPCommandsCommon {
-  constructor() {
-  }
 
   abstract getCommands(): any;
 
   abstract text(value: string): SPCommandsCommon;
+  abstract setFont(font: PrinterFont): SPCommandsCommon;
   // could add textUnderlinedStart/End when requested, but this keeps the API simple for now
   abstract textUnderlined(value: string): SPCommandsCommon;
   abstract textBold(value: string): SPCommandsCommon;
   abstract textLarge(value: string): SPCommandsCommon;
+  abstract textLargeBold(value: string): SPCommandsCommon;
   abstract newLine(): SPCommandsCommon;
   abstract cutPaper(): SPCommandsCommon;
   abstract alignCenter(): SPCommandsCommon;
   abstract alignLeft(): SPCommandsCommon;
   abstract barcode(options: SPBarcodeCommand): SPCommandsCommon;
 
-  horizontalLine(): SPCommandsCommon {
+  horizontalLine(character = "─"): SPCommandsCommon {
     this.newLine();
     // assuming 3" paper roll (48 characters)
-    this.text("------------------------------------------------");
+    this.text(character.repeat(48));
     return this.newLine();
   }
 }

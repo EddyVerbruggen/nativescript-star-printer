@@ -59,8 +59,9 @@ export class HelloWorldModel extends Observable {
   public doPrintReceiptA(): void {
     // Note that a 3" roll is 48 chars wide
     const commands = new SPCommands()
+        .setFont("smaller")
         .alignCenter()
-        .text("My Awesome Boutique")
+        .textBold("My Awesome Boutique")
         .newLine()
         .text("In a shop near you")
         .newLine()
@@ -83,8 +84,8 @@ export class HelloWorldModel extends Observable {
         .barcode({
           type: "Code128",
           value: "12345678",
-          width: "large",
-          height: 60,
+          width: "small",
+          height: 50,
           appendEncodedValue: false
         })
         .newLine()
@@ -118,7 +119,6 @@ export class HelloWorldModel extends Observable {
     let dateTimeText = pad("ORD000456", totalWidth / 2) + pad(totalWidth / 2, `11-11-2018 10:03`);
 
     commands
-        .horizontalLine() // Note that horizontal lines include newLine() commands as well
         .text(dateTimeHeader)
         .newLine()
         .text(dateTimeText)

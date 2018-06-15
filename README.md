@@ -1,6 +1,5 @@
 # NativeScript Star Printer
 
-[![Build Status][build-status]][build-url]
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][npm-url]
 [![Twitter Follow][twitter-image]][twitter-url]
@@ -74,7 +73,7 @@ this.starPrinter.print({
 });
 ```
 
-So what are those `commands`? Let's recreate the fake receipt below to answer that:
+So what are those `commands`? Let's recreate the fake receipt below to answer that (see the TypeScript definition for all options):
 
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt-with-barcode.jpg" width="500px" />
 

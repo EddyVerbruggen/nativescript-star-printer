@@ -1,4 +1,5 @@
 import {
+  PrinterFont,
   SPBarcodeCommand,
   SPCommandsCommon, SPConnectOptions,
   SPOpenCashDrawerOptions,
@@ -9,6 +10,8 @@ import {
 } from "./star-printer.common";
 
 /**
+ * Doc: http://www.starmicronics.com/support/Mannualfolder/linemode_cm_en.pdf
+ *
  * Note that there's a command builder for iOS as well,
  * but not everything is exposed to the metadata, so we're not using that.
  */
@@ -19,7 +22,6 @@ export class SPCommands extends SPCommandsCommon {
     super();
     this._commands = NSMutableData.data();
     this.setCodepageUtf8();
-    // a smaller font can be set like this: this.appendBytes([0x1b, 0x1e, 0x46, 0x01]);
     return this;
   }
 
@@ -27,6 +29,15 @@ export class SPCommands extends SPCommandsCommon {
     // set characterset here, so we can print beyond the ascii range
     // UTF8 = hex(128) = dec(80) (see https://ascii.cl/conversion.htm)
     this.appendBytes([0x1b, 0x1d, 0x74, 0x80]);
+  }
+
+  setFont(font: PrinterFont): SPCommandsCommon {
+    if (font === "default") {
+      this.appendBytes([0x1b, 0x1e, 0x46, 0x00]);
+    } else {
+      this.appendBytes([0x1b, 0x1e, 0x46, 0x01]);
+    }
+    return this;
   }
 
   text(value: string): SPCommandsCommon {
@@ -50,6 +61,15 @@ export class SPCommands extends SPCommandsCommon {
   textLarge(value: string): SPCommandsCommon {
     this.appendBytes([0x1b, 0x69, 0x01, 0x01]);
     this.text(value);
+    this.appendBytes([0x1b, 0x69, 0x00, 0x00]);
+    return this;
+  }
+
+  textLargeBold(value: string): SPCommandsCommon {
+    this.appendBytes([0x1b, 0x69, 0x01, 0x01]);
+    this.appendBytes([0x1b, 0x45]);
+    this.text(value);
+    this.appendBytes([0x1b, 0x46]);
     this.appendBytes([0x1b, 0x69, 0x00, 0x00]);
     return this;
   }

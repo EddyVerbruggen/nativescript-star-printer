@@ -1,5 +1,6 @@
 import * as utils from "tns-core-modules/utils/utils";
 import {
+  PrinterFont,
   SPBarcodeCommand,
   SPCommandsCommon,
   SPConnectOptions,
@@ -14,7 +15,9 @@ declare let com: any;
 const StarIOPort: any = com.starmicronics.stario.StarIOPort;
 const ICommandBuilder: any = com.starmicronics.starioextension.ICommandBuilder;
 
-// see http://www.starmicronics.com/support/SDKDocumentation.aspx
+/**
+ * Doc: http://www.starmicronics.com/support/SDKDocumentation.aspx
+ */
 export class SPCommands extends SPCommandsCommon {
   private builder: any;
   private encoding: any;
@@ -40,6 +43,11 @@ export class SPCommands extends SPCommandsCommon {
     return this;
   }
 
+  setFont(font: PrinterFont): SPCommandsCommon {
+    this.builder.appendFontStyle(font === "default" ? ICommandBuilder.FontStyleType.A : ICommandBuilder.FontStyleType.B);
+    return this;
+  }
+
   text(value: string): SPCommandsCommon {
     this.builder.append(this.getEncodedString(value));
     return this;
@@ -57,6 +65,13 @@ export class SPCommands extends SPCommandsCommon {
 
   textLarge(value: string): SPCommandsCommon {
     this.builder.appendMultiple(this.getEncodedString(value), 2, 2);
+    return this;
+  }
+
+  textLargeBold(value: string): SPCommandsCommon {
+    this.builder.appendEmphasis(true);
+    this.builder.appendMultiple(this.getEncodedString(value), 2, 2);
+    this.builder.appendEmphasis(false);
     return this;
   }
 
@@ -81,7 +96,14 @@ export class SPCommands extends SPCommandsCommon {
   }
 
   barcode(options: SPBarcodeCommand): SPCommandsCommon {
-    // TODO, one day.. not that hard since we can use the builder (getBuilder()...)
+    this.builder.appendBarcodeWithAlignment(
+        this.getEncodedString("{B0" + options.value),
+        ICommandBuilder.BarcodeSymbology.Code128,
+        (!options.width || options.width === "medium" ? ICommandBuilder.BarcodeWidth.Mode2 : (options.width === "large" ? ICommandBuilder.BarcodeWidth.Mode3 : ICommandBuilder.BarcodeWidth.Mode1)),
+        options.height,
+        options.appendEncodedValue,
+        ICommandBuilder.AlignmentPosition.Center
+    );
     return this;
   }
 
