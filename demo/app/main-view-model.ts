@@ -1,8 +1,10 @@
-import { Observable } from "tns-core-modules/data/observable";
-import { alert } from "tns-core-modules/ui/dialogs";
+import {Observable} from "tns-core-modules/data/observable";
+import {alert} from "tns-core-modules/ui/dialogs";
 import * as AppSettings from "tns-core-modules/application-settings";
-import { ObservableArray } from "tns-core-modules/data/observable-array";
-import { SPCommands, SPPrinter, StarPrinter } from "nativescript-star-printer";
+import {ObservableArray} from "tns-core-modules/data/observable-array";
+import {SPCommands, SPPrinter, StarPrinter} from "nativescript-star-printer";
+
+const pad = require('pad');
 
 export class HelloWorldModel extends Observable {
   private static LOADING_KEY = "isLoading";
@@ -54,9 +56,9 @@ export class HelloWorldModel extends Observable {
     AppSettings.setString(HelloWorldModel.LAST_CONNECTED_PORT_KEY, this.selectedPrinterPort);
   }
 
-  public doPrint(): void {
-    // 3" roll is 48 chars wide
-    let commands = new SPCommands()
+  public doPrintReceiptA(): void {
+    // Note that a 3" roll is 48 chars wide
+    const commands = new SPCommands()
         .alignCenter()
         .text("My Awesome Boutique")
         .newLine()
@@ -87,6 +89,60 @@ export class HelloWorldModel extends Observable {
         })
         .newLine()
         .cutPaper();
+
+    this.starPrinter.print({
+      portName: this.selectedPrinterPort,
+      commands: commands
+    });
+  }
+
+  public doPrintReceiptB(): void {
+    // Note that a 3" roll is 48 chars wide
+    const totalWidth = 48,
+        colWidth1 = 9,
+        colWidth3 = 12,
+        colWidth2 = totalWidth - (colWidth1 + colWidth3);
+
+    let commands = new SPCommands();
+
+    commands.alignCenter();
+    commands.textBold("My offline Superstore");
+    commands.newLine();
+
+    commands.text("Moulin Rouge 69").newLine();
+    commands.text("3823ED Paris").newLine();
+
+    commands.alignLeft();
+
+    let dateTimeHeader = pad("Order", totalWidth / 2) + pad(totalWidth / 2, "Date/Time");
+    let dateTimeText = pad("ORD000456", totalWidth / 2) + pad(totalWidth / 2, `11-11-2018 10:03`);
+
+    commands
+        .horizontalLine() // Note that horizontal lines include newLine() commands as well
+        .text(dateTimeHeader)
+        .newLine()
+        .text(dateTimeText)
+        .horizontalLine()
+        .newLine() // add another blank line
+        .textBold(pad("Amount", colWidth1) + pad("Product", colWidth2) + pad(colWidth3, "Total")).newLine();
+
+    commands.text(pad("1", colWidth1) + pad(HelloWorldModel.fit("Viagra, 12-pack", colWidth2), colWidth2) + pad(colWidth3, "12,99")).newLine();
+    commands.text(pad("3", colWidth1) + pad(HelloWorldModel.fit("Condoms, XXL", colWidth2), colWidth2) + pad(colWidth3, "17,97")).newLine();
+
+    // horizontalLine includes a newline
+    commands.horizontalLine();
+
+    // textLarge takes twice the amount of space
+    commands.text(pad(`Total amount (EUR)`, totalWidth / 2)).textLarge(pad(totalWidth / 4, "30,96")).newLine();
+
+    commands.text(pad(`VAT 21% (EUR)`, totalWidth / 2) + pad(totalWidth / 2, "5,82")).newLine().newLine();
+
+    commands.text(pad(`Payment type:`, totalWidth / 2) + pad(totalWidth / 2, "Maestro")).newLine();
+
+    commands.text(pad(`Auth. code:`, totalWidth / 2) + pad(totalWidth / 2, "567343")).newLine();
+
+    commands.newLine().newLine() // add some blank lines
+        .cutPaper(); // makes it easier to tear off the receipt :)
 
     this.starPrinter.print({
       portName: this.selectedPrinterPort,
@@ -132,5 +188,11 @@ export class HelloWorldModel extends Observable {
     this.starPrinter.openCashDrawer({
       portName: this.selectedPrinterPort
     });
+  }
+
+  private static fit(what: string, into: number): string {
+    return what && what.length > into ?
+        what.substring(0, into) :
+        what;
   }
 }
