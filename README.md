@@ -78,12 +78,21 @@ So what are those `commands`? Let's recreate the fake receipt below to answer th
 <img src="https://github.com/EddyVerbruggen/nativescript-star-printer/raw/master/media/demo-app-receipt-with-barcode.jpg" width="500px" />
 
 ```typescript
+const image = ImageSource.fromFile("~/res/mww-logo.png");
+
 // Note that a standard 3 inch roll is 48 characters wide - we use that knowledge for our "columns"
 let commands = new SPCommands()
+    .image(
+        image,
+        true, // diffuse
+        true // align center (set to 'false' to align left)
+     )
     .alignCenter()
     .text("My Awesome Boutique").newLine()
     .text("In a shop near you").newLine()
+    .setFont("smaller")
     .text("Planet Earth").newLine()
+    .setFont("default")
     .newLine()
     .text("Date: 11/11/2017                   Time: 3:15 PM")
     .horizontalLine()
