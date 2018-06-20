@@ -1,3 +1,4 @@
+import {ImageSource} from "tns-core-modules/image-source";
 import * as utils from "tns-core-modules/utils/utils";
 import {
   PrinterFont,
@@ -104,6 +105,14 @@ export class SPCommands extends SPCommandsCommon {
         options.appendEncodedValue,
         ICommandBuilder.AlignmentPosition.Center
     );
+    return this;
+  }
+
+  image(imageSource: ImageSource, diffuse?: boolean, alignCenter?: boolean): SPCommandsCommon {
+    this.builder.appendBitmapWithAlignment(
+        imageSource.android,
+        diffuse !== false,
+        alignCenter !== false ? ICommandBuilder.AlignmentPosition.Center : ICommandBuilder.AlignmentPosition.Left);
     return this;
   }
 

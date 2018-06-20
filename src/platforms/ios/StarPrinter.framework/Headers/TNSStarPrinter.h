@@ -10,6 +10,8 @@
 
 + (void)disconnect:(void(^)(BOOL connected))completionHandler;
 
++ (NSData *)getBitmapCommand:(UIImage *)image withDiffusion:(BOOL)diffusion andCenterAlignment:(BOOL)alignCenter;
+
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler;
 
 @end

@@ -1,4 +1,6 @@
 #import "TNSStarPrinter.h"
+#import <StarIO_Extension/ISCBBuilder.h>
+#import <StarIO_Extension/StarIoExt.h>
 
 @implementation TNSStarPrinter
 
@@ -43,6 +45,20 @@ static StarIoExtManager *_starIoExtManager;
         completionHandler([_starIoExtManager disconnect]);
         _starIoExtManager = nil;
     }
+}
+
++ (NSData *)getBitmapCommand:(UIImage *)image withDiffusion:(BOOL)diffusion andCenterAlignment:(BOOL)alignCenter {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarLine];
+    
+    [builder beginDocument];
+    
+    [builder appendBitmapWithAlignment:image
+                             diffusion:diffusion
+                              position:(alignCenter ? SCBAlignmentPositionCenter : SCBAlignmentPositionLeft)];
+    
+    [builder endDocument];
+    
+    return [builder.commands copy];
 }
 
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler {

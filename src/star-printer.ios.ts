@@ -1,3 +1,4 @@
+import {ImageSource} from "tns-core-modules/image-source";
 import {
   PrinterFont,
   SPBarcodeCommand,
@@ -97,6 +98,15 @@ export class SPCommands extends SPCommandsCommon {
     this.appendBytes([0x1b, 0x62, code128, appendEncodedValue, mode, height]);
     this.appendData(options.value);
     this.appendBytes([0x1e]);
+    return this;
+  }
+
+  image(imageSource: ImageSource, diffuse?: boolean, alignCenter?: boolean): SPCommandsCommon {
+    const imageData = TNSStarPrinter.getBitmapCommandWithDiffusionAndCenterAlignment(imageSource.ios, diffuse !== false, alignCenter !== false);
+    this._commands.appendData(imageData);
+
+    // reset codepage because the image alters it
+    this.setCodepageUtf8();
     return this;
   }
 

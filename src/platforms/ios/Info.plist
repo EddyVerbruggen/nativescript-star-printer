@@ -7,7 +7,7 @@
         <string>jp.star-m.starpro</string>
     </array>
     <key>NSBluetoothPeripheralUsageDescription</key>
-    <string/>
+    <string>For printing</string>
   </dict>
 </plist>
 

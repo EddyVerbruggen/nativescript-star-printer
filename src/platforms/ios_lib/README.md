@@ -2,7 +2,7 @@ Custom StarIO framework for iOS apps.
 
 I'm using this wrapper to circumvent some pointer release issues when using {N}-StarIO SDK interaction.
 
-### Download the dependencies before opening Xcode
+### Update the dependencies before opening Xcode (if needed)
 - Go to http://www.starmicronics.com/support/SDKDocumentation.aspx
 - The browse to the 'Developers' section..
 - .. then iOS > etc

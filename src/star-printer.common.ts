@@ -1,3 +1,5 @@
+import {ImageSource} from "tns-core-modules/image-source";
+
 export class SPPrinter {
   portName: string;
   modelName: string;
@@ -23,17 +25,29 @@ export abstract class SPCommandsCommon {
   abstract getCommands(): any;
 
   abstract text(value: string): SPCommandsCommon;
+
   abstract setFont(font: PrinterFont): SPCommandsCommon;
+
   // could add textUnderlinedStart/End when requested, but this keeps the API simple for now
   abstract textUnderlined(value: string): SPCommandsCommon;
+
   abstract textBold(value: string): SPCommandsCommon;
+
   abstract textLarge(value: string): SPCommandsCommon;
+
   abstract textLargeBold(value: string): SPCommandsCommon;
+
   abstract newLine(): SPCommandsCommon;
+
   abstract cutPaper(): SPCommandsCommon;
+
   abstract alignCenter(): SPCommandsCommon;
+
   abstract alignLeft(): SPCommandsCommon;
+
   abstract barcode(options: SPBarcodeCommand): SPCommandsCommon;
+
+  abstract image(imageSource: ImageSource, diffuse?: boolean /* default true */, alignCenter?: boolean /* default true */): SPCommandsCommon;
 
   horizontalLine(character = "─"): SPCommandsCommon {
     this.newLine();
@@ -62,8 +76,12 @@ export interface SPPrintOptions {
 //noinspection JSUnusedGlobalSymbols
 export interface StarPrinterApi {
   searchPrinters(options?: SPSearchPrinterOptions): Promise<Array<SPPrinter>>;
+
   connect(options: SPConnectOptions): Promise<boolean>;
+
   disconnect(): Promise<boolean>;
+
   print(options: SPPrintOptions): Promise<any>;
+
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any>;
 }
