@@ -1,4 +1,5 @@
 import {Observable} from "tns-core-modules/data/observable";
+import * as ImageSource from "tns-core-modules/image-source";
 import {alert} from "tns-core-modules/ui/dialogs";
 import * as AppSettings from "tns-core-modules/application-settings";
 import {ObservableArray} from "tns-core-modules/data/observable-array";
@@ -104,6 +105,7 @@ export class HelloWorldModel extends Observable {
         colWidth3 = 12,
         colWidth2 = totalWidth - (colWidth1 + colWidth3);
 
+    const image = ImageSource.fromFile("~/res/mww-logo.png");
     let commands = new SPCommands();
 
     commands.alignCenter();
@@ -112,6 +114,8 @@ export class HelloWorldModel extends Observable {
 
     commands.text("Moulin Rouge 69").newLine();
     commands.text("3823ED Paris").newLine();
+
+    commands.image(image);
 
     commands.alignLeft();
 
@@ -143,6 +147,100 @@ export class HelloWorldModel extends Observable {
 
     commands.newLine().newLine() // add some blank lines
         .cutPaper(); // makes it easier to tear off the receipt :)
+
+    this.starPrinter.print({
+      portName: this.selectedPrinterPort,
+      commands: commands
+    });
+  }
+
+  public doPrintReceiptC(): void {
+
+    // Note that a 3" roll is 48 chars wide with the default font, and 64 with the smaller font
+    const totalWidth = 48,
+        totalWidthSmallerFont = 64,
+        image = ImageSource.fromFile("~/res/mww-logo.png"),
+        commands = new SPCommands();
+
+    commands
+        .image(image, true, true)
+        .alignCenter()
+        .textLargeBold("NAAM VAN DE LOCATIE").newLine()
+        .text("Molenstraat 56").newLine()
+        .text("5341GE OSS").newLine()
+        .text("▄▄▄▄▄▄▄▄").newLine()
+        .newLine()
+        .text("Custom header tekst").newLine()
+        .newLine()
+        .textLarge("KOPIE").newLine()
+        .horizontalLine("▀")
+        .text(pad("Order", totalWidth / 2) + pad(totalWidth / 2, "Datum/Tijd")).newLine()
+        .text(pad("201800001", totalWidth / 2) + pad(totalWidth / 2, "19-06-2018 12:00"))
+        .horizontalLine("▀")
+        .newLine()
+        .textBold(pad("Product", totalWidth / 2) + pad(totalWidth / 2, "Prijs"))
+        .horizontalLine("—")
+
+        .textBold(pad("Lobi Snapback", totalWidth / 2) + pad(totalWidth / 2, "€ 19,99")).newLine()
+        .text(pad("  Zwart", totalWidth)).newLine()
+        .setFont("smaller")
+        .textBold(pad("Beschadigd", totalWidthSmallerFont / 2) + pad(totalWidthSmallerFont / 2, "€ -5,00"))
+        .setFont("default")
+
+        .horizontalLine(".")
+
+        .textBold(pad("Lobi Snapback", totalWidth)).newLine()
+        .text(pad("  Zwart", totalWidth)).newLine()
+        .setFont("smaller")
+        .text(pad("2x 19,99", totalWidthSmallerFont / 2))
+        .setFont("default")
+        .textBold(pad(totalWidth / 2, "€ 38,98")).newLine()
+        .setFont("smaller")
+        .textBold(pad("Beschadigd", totalWidthSmallerFont / 2) + pad(totalWidthSmallerFont / 2, "€ -5,00"))
+        .setFont("default")
+        .horizontalLine(".")
+
+        .newLine()
+        .textLarge(pad("TOTAAL", totalWidth / 4) + pad(totalWidth / 4, "€ 60,46"))
+        .horizontalLine(".")
+
+        .newLine()
+        .text(pad("    BTW (21%)", totalWidth / 2) + pad(totalWidth / 2, "€ 10,49    ")).newLine()
+        .text(pad("    BTW (6%)", totalWidth / 2) + pad(totalWidth / 2, "€  6,13    ")).newLine()
+        .text(pad("    TOTAAL BTW", totalWidth / 2) + pad(totalWidth / 2, "€ 16,62    ")).newLine()
+        .horizontalLine("—")
+        .newLine()
+
+        .text(`┌${"─".repeat(46)}┐`)
+        .text(pad("│ Betaalwijze:", totalWidth / 2) + pad(totalWidth / 2, "MAESTRO │"))
+        .text(`├${"─".repeat(46)}┤`)
+        .text(pad("│ Auth. code:", totalWidth / 2) + pad(totalWidth / 2, "6557M9 │"))
+        .text(`└${"─".repeat(46)}┘`).newLine()
+
+        .newLine()
+        .text(pad("ALTERNATIEF - dubbele strepen", totalWidth)).newLine()
+
+        .text(`╔${"═".repeat(46)}╗`)
+        .text(pad("║ Betaalwijze:", totalWidth / 2) + pad(totalWidth / 2, "MAESTRO ║"))
+        .text(`╠${"═".repeat(46)}╣`)
+        .text(pad("║ Auth. code:", totalWidth / 2) + pad(totalWidth / 2, "6557M9 ║"))
+        .text(`╚${"═".repeat(46)}╝`).newLine()
+
+        .newLine()
+        .text("Customer footer tekst").newLine()
+        .horizontalLine("—")
+        .newLine()
+
+        .barcode({
+          type: "Code128",
+          value: "12345678",
+          width: "medium",
+          height: 50,
+          appendEncodedValue: false
+        })
+
+        .newLine()
+        .cutPaper();
 
     this.starPrinter.print({
       portName: this.selectedPrinterPort,

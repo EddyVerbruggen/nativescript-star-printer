@@ -1,20 +1,20 @@
 ﻿button {
   color: #ffffff;
-  padding: 8 12;
-  margin: 10 30;
+  padding: 6 10;
+  margin: 8 30;
   font-size: 13;
   border-radius: 4;
 }
 
 Image {
-  margin: 20 0;
+  margin: 16 0 0 0;
 }
 
 .title {
   color: #333;
-  font-size: 22;
+  font-size: 20;
   horizontal-align: center;
-  padding-top: 30;
+  padding-top: 24;
 }
 
 .message {
