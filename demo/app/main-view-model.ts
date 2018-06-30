@@ -57,6 +57,14 @@ export class HelloWorldModel extends Observable {
     AppSettings.setString(HelloWorldModel.LAST_CONNECTED_PORT_KEY, this.selectedPrinterPort);
   }
 
+  public getPaperStatus(): void {
+    this.set("message", `Paper status: ${this.starPrinter.paperStatus()}`);
+  }
+
+  public isOnline(): void {
+    this.set("message", `${this.starPrinter.online() ? 'Online' : 'Offline'}`);
+  }
+
   public doPrintReceiptA(): void {
     // Note that a 3" roll is 48 chars wide
     const commands = new SPCommands()

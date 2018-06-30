@@ -1,7 +1,7 @@
 import {ImageSource} from "tns-core-modules/image-source";
 import * as utils from "tns-core-modules/utils/utils";
 import {
-  PrinterFont,
+  PrinterFont, PrinterPaperStatus,
   SPBarcodeCommand,
   SPCommandsCommon,
   SPConnectOptions,
@@ -235,5 +235,17 @@ export class StarPrinter implements StarPrinterApi {
         reject(e);
       }
     });
+  }
+
+  online(): boolean {
+    // TODO
+    console.log("online() is not yet implemented for Android");
+    return true;
+  }
+
+  paperStatus(): PrinterPaperStatus {
+    // TODO
+    console.log("paperStatus() is not yet implemented for Android");
+    return "READY";
   }
 }

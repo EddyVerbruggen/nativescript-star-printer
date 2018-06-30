@@ -20,6 +20,8 @@ export interface SPBarcodeCommand {
 
 export type PrinterFont = "default" | "smaller";
 
+export type PrinterPaperStatus = "UNKNOWN" | "NEAR_EMPTY" | "EMPTY" | "READY";
+
 export abstract class SPCommandsCommon {
 
   abstract getCommands(): any;
@@ -84,4 +86,8 @@ export interface StarPrinterApi {
   print(options: SPPrintOptions): Promise<any>;
 
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any>;
+
+  online(): boolean;
+
+  paperStatus(): PrinterPaperStatus;
 }

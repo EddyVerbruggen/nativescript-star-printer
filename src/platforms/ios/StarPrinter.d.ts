@@ -17,4 +17,8 @@ declare class TNSStarPrinter extends NSObject {
   static getBitmapCommandWithDiffusionAndCenterAlignment(image: UIImage, diffusion: boolean, centerAlignment: boolean): NSData;
 
   static sendCommandsToPortOnComplete(commands: NSData, portName: string, completionHandler: (p1: string) => void): void;
+
+  static  online: boolean;
+
+  static paperStatus: NSString;
 }

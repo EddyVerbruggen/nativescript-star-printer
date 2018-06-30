@@ -14,4 +14,8 @@
 
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler;
 
++ (BOOL)online;
+
++ (NSString *)paperStatus;
+
 @end

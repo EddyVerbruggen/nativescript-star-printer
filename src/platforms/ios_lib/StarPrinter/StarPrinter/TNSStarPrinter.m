@@ -22,6 +22,23 @@ static StarIoExtManager *_starIoExtManager;
     });
 }
 
++ (BOOL)online {
+    // TODO test. If this doesn't work, use the same method as 'sendCommands:' below
+    return _starIoExtManager != nil && _starIoExtManager.printerStatus == StarIoExtManagerPrinterStatusOnline;
+}
+
++ (NSString *)paperStatus {
+    if (_starIoExtManager == nil || _starIoExtManager.printerPaperStatus == StarIoExtManagerPrinterPaperStatusInvalid || _starIoExtManager.printerPaperStatus == StarIoExtManagerPrinterPaperStatusImpossible) {
+        return @"UNKNOWN";
+    } else if (_starIoExtManager.printerPaperStatus == StarIoExtManagerPrinterPaperStatusNearEmpty) {
+        return @"NEAR_EMPTY";
+    } else if (_starIoExtManager.printerPaperStatus == StarIoExtManagerPrinterPaperStatusEmpty) {
+        return @"EMPTY";
+    } else {
+        return @"READY";
+    }
+}
+
 + (void)connect:(NSString *)portName onComplete:(void(^)(BOOL connected))completionHandler {
     if (_starIoExtManager == nil) {
         _starIoExtManager = [[StarIoExtManager alloc] initWithType:StarIoExtManagerTypeStandard

@@ -1,6 +1,6 @@
 import {ImageSource} from "tns-core-modules/image-source";
 import {
-  PrinterFont,
+  PrinterFont, PrinterPaperStatus,
   SPBarcodeCommand,
   SPCommandsCommon, SPConnectOptions,
   SPOpenCashDrawerOptions,
@@ -231,6 +231,14 @@ export class StarPrinter implements StarPrinterApi {
         reject(e);
       }
     });
+  }
+
+  online(): boolean {
+    return TNSStarPrinter.online;
+  }
+
+  paperStatus(): PrinterPaperStatus {
+    return <any>TNSStarPrinter.paperStatus;
   }
 
 
