@@ -63,6 +63,21 @@ in other API methods.
 
 The only other property is `modelName`.
 
+### `online`
+Check whether or not the printer is online.
+
+```typescript
+const printerOnline = this.starPrinter.online;
+```
+
+### `paperStatus`
+Check the paper status.
+
+```typescript
+// possible values: "UNKNOWN" | "NEAR_EMPTY" | "EMPTY" | "READY"
+const paperStatus: PrinterPaperStatus = this.starPrinter.paperStatus;
+```
+
 ### `print`
 Once you've got the port of the printer you want to print on, just do:
 
