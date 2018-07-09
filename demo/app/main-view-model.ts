@@ -57,14 +57,6 @@ export class HelloWorldModel extends Observable {
     AppSettings.setString(HelloWorldModel.LAST_CONNECTED_PORT_KEY, this.selectedPrinterPort);
   }
 
-  public getPaperStatus(): void {
-    this.set("message", `Paper status: ${this.starPrinter.paperStatus()}`);
-  }
-
-  public isOnline(): void {
-    this.set("message", `${this.starPrinter.online() ? 'Online' : 'Offline'}`);
-  }
-
   public doPrintReceiptA(): void {
     // Note that a 3" roll is 48 chars wide
     const commands = new SPCommands()
@@ -260,10 +252,10 @@ export class HelloWorldModel extends Observable {
     this.set(HelloWorldModel.LOADING_KEY, true);
     this.starPrinter.connect({
       portName: this.lastConnectedPrinterPort
-    }).then((connected: boolean) => {
-      console.log("Connected: " + connected);
+    }).then(result => {
+      console.log("Connected: " + result.connected);
       this.set(HelloWorldModel.LOADING_KEY, false);
-      if (connected) {
+      if (result.connected) {
         this.set(HelloWorldModel.SELECTED_PRINTER_KEY, this.lastConnectedPrinterPort);
       } else {
         alert({
@@ -276,7 +268,9 @@ export class HelloWorldModel extends Observable {
   }
 
   public doDisconnect(): void {
-    this.starPrinter.disconnect().then((disconnected: boolean) => {
+    this.starPrinter.disconnect({
+      portName: this.lastConnectedPrinterPort
+    }).then((disconnected: boolean) => {
       if (disconnected) {
         this.printers.splice(0);
         this.set(HelloWorldModel.SELECTED_PRINTER_KEY, undefined);

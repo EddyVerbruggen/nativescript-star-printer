@@ -1,12 +1,16 @@
 import {ImageSource} from "tns-core-modules/image-source";
 import {
-  PrinterFont, PrinterPaperStatus,
+  PrinterFont,
   SPBarcodeCommand,
-  SPCommandsCommon, SPConnectOptions,
+  SPCommandsCommon,
+  SPConnectOptions,
+  SPConnectResult,
+  SPDisconnectOptions,
   SPOpenCashDrawerOptions,
   SPPrinter,
   SPPrintOptions,
   SPSearchPrinterOptions,
+  SPToggleAutoConnectOptions,
   StarPrinterApi
 } from "./star-printer.common";
 
@@ -135,9 +139,7 @@ export class StarPrinter implements StarPrinterApi {
   private initStarPrinter(portName: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // note that the native lib caches the connection, so this is very quick the second time
-      TNSStarPrinter.connectOnComplete(portName, (connected: boolean) => {
-        resolve(connected);
-      });
+      this.connect({portName}).then(result => resolve(result.connected));
     });
   }
 
@@ -180,13 +182,17 @@ export class StarPrinter implements StarPrinterApi {
     });
   }
 
-  connect(options: SPConnectOptions): Promise<boolean> {
+  connect(options: SPConnectOptions): Promise<SPConnectResult> {
     return new Promise((resolve, reject) => {
       try {
         // Note that non-LE Bluetooth devices need to be connected through a picker of EAAccessoryManager,
         // which is not implemented at the moment. Workaround: go to settings > Bluetooth and connect the device.
-        TNSStarPrinter.connectOnComplete(options.portName, (connected: boolean) => {
-          resolve(connected);
+        TNSStarPrinter.connectOnComplete(options.portName, (result: NSDictionary<NSString, any>) => {
+          resolve({
+            connected: result.valueForKey("connected"),
+            online: result.valueForKey("online"),
+            paperStatus: result.valueForKey("paperStatus")
+          });
         });
       } catch (e) {
         reject(e);
@@ -194,11 +200,25 @@ export class StarPrinter implements StarPrinterApi {
     });
   }
 
-  disconnect(): Promise<boolean> {
+  disconnect(options: SPDisconnectOptions): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
-        TNSStarPrinter.disconnect((disconnected: boolean) => {
-          resolve(disconnected);
+        TNSStarPrinter.disconnectOnComplete(options.portName, (disconnected: boolean) => resolve(disconnected));
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  toggleAutoConnect(options: SPToggleAutoConnectOptions): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        TNSStarPrinter.toggleAutoConnectEnableOnComplete(options.portName, options.autoConnect, (error: NSString) => {
+          if (error === null) {
+            resolve(true);
+          } else {
+            reject(error);
+          }
         });
       } catch (e) {
         reject(e);
@@ -232,15 +252,6 @@ export class StarPrinter implements StarPrinterApi {
       }
     });
   }
-
-  online(): boolean {
-    return TNSStarPrinter.online;
-  }
-
-  paperStatus(): PrinterPaperStatus {
-    return <any>TNSStarPrinter.paperStatus;
-  }
-
 
   // Note: could expose this as a property and read these stats (not for v1 though)
   //  console.log("cash drawer open? " + _starIoExtManager.cashDrawerOpenStatus);

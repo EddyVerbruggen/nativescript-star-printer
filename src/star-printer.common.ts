@@ -67,6 +67,15 @@ export interface SPConnectOptions {
   portName: string;
 }
 
+export interface SPDisconnectOptions {
+  portName: string;
+}
+
+export interface SPToggleAutoConnectOptions {
+  portName: string;
+  autoConnect: boolean;
+}
+
 export interface SPSearchPrinterOptions {
 }
 
@@ -75,19 +84,23 @@ export interface SPPrintOptions {
   commands: SPCommandsCommon;
 }
 
+export interface SPConnectResult {
+  connected: boolean;
+  online: boolean;
+  paperStatus: PrinterPaperStatus;
+}
+
 //noinspection JSUnusedGlobalSymbols
 export interface StarPrinterApi {
   searchPrinters(options?: SPSearchPrinterOptions): Promise<Array<SPPrinter>>;
 
-  connect(options: SPConnectOptions): Promise<boolean>;
+  connect(options: SPConnectOptions): Promise<SPConnectResult>;
 
-  disconnect(): Promise<boolean>;
+  disconnect(options: SPDisconnectOptions): Promise<boolean>;
+
+  toggleAutoConnect(options: SPToggleAutoConnectOptions): Promise<boolean>;
 
   print(options: SPPrintOptions): Promise<any>;
 
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any>;
-
-  online(): boolean;
-
-  paperStatus(): PrinterPaperStatus;
 }

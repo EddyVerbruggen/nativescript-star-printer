@@ -6,9 +6,11 @@ declare class TNSStarPrinter extends NSObject {
 
   static alloc(): TNSStarPrinter; // inherited from NSObject
 
-  static connectOnComplete(portName: string, completionHandler: (p1: boolean) => void): void;
+  static connectOnComplete(portName: string, completionHandler: (p1: NSDictionary<NSString, any>) => void): void;
 
-  static disconnect(completionHandler: (p1: boolean) => void): void;
+  static disconnectOnComplete(portName: string, completionHandler: (p1: boolean) => void): void;
+
+  static toggleAutoConnectEnableOnComplete(portName: string, newSetting: boolean, completionHandler: (error: NSString) => void);
 
   static new(): TNSStarPrinter; // inherited from NSObject
 
@@ -17,8 +19,4 @@ declare class TNSStarPrinter extends NSObject {
   static getBitmapCommandWithDiffusionAndCenterAlignment(image: UIImage, diffusion: boolean, centerAlignment: boolean): NSData;
 
   static sendCommandsToPortOnComplete(commands: NSData, portName: string, completionHandler: (p1: string) => void): void;
-
-  static  online: boolean;
-
-  static paperStatus: NSString;
 }

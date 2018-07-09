@@ -1,14 +1,17 @@
 import {ImageSource} from "tns-core-modules/image-source";
 import * as utils from "tns-core-modules/utils/utils";
 import {
-  PrinterFont, PrinterPaperStatus,
+  PrinterFont,
   SPBarcodeCommand,
   SPCommandsCommon,
   SPConnectOptions,
+  SPConnectResult,
+  SPDisconnectOptions,
   SPOpenCashDrawerOptions,
   SPPrinter,
   SPPrintOptions,
   SPSearchPrinterOptions,
+  SPToggleAutoConnectOptions,
   StarPrinterApi
 } from "./star-printer.common";
 
@@ -179,14 +182,17 @@ export class StarPrinter implements StarPrinterApi {
     });
   }
 
-  connect(options: SPConnectOptions): Promise<boolean> {
-    // doesn't look like we need to do this
+  connect(options: SPConnectOptions): Promise<SPConnectResult> {
     return new Promise((resolve, reject) => {
-      resolve(true);
+      resolve({
+        connected: true,
+        online: true, // TODO actual value
+        paperStatus: "UNKNOWN" // TODO actual value
+      });
     });
   }
 
-  disconnect(): Promise<boolean> {
+  disconnect(options: SPDisconnectOptions): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         // same as connect
@@ -194,6 +200,12 @@ export class StarPrinter implements StarPrinterApi {
       } catch (e) {
         reject(e);
       }
+    });
+  }
+
+  toggleAutoConnect(options: SPToggleAutoConnectOptions): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      reject("Not implemented (yet) on Android"); // TODO some day..
     });
   }
 
@@ -235,17 +247,5 @@ export class StarPrinter implements StarPrinterApi {
         reject(e);
       }
     });
-  }
-
-  online(): boolean {
-    // TODO
-    console.log("online() is not yet implemented for Android");
-    return true;
-  }
-
-  paperStatus(): PrinterPaperStatus {
-    // TODO
-    console.log("paperStatus() is not yet implemented for Android");
-    return "READY";
   }
 }
