@@ -159,11 +159,13 @@ export class HelloWorldModel extends Observable {
     // Note that a 3" roll is 48 chars wide with the default font, and 64 with the smaller font
     const totalWidth = 48,
         totalWidthSmallerFont = 64,
-        image = ImageSource.fromFile("~/res/mww-logo.png"),
+        // image = ImageSource.fromFile("~/res/mww-logo.png"),
+        image = ImageSource.fromFile("~/res/combidesk-logo.png"),
         commands = new SPCommands();
 
     commands
-        .image(image, true, true)
+        .image(image, false, true)
+        .newLine()
         .alignCenter()
         .textLargeBold("LOCATION NAME").newLine()
         .text("Molenstraat 56").newLine()
@@ -178,7 +180,7 @@ export class HelloWorldModel extends Observable {
         .text(pad("201800001", totalWidth / 2) + pad(totalWidth / 2, "19-06-2018 12:00"))
         .horizontalLine("▀")
         .newLine()
-        .textBold(pad("Product", totalWidth / 2) + pad(totalWidth / 2, "Prijs"))
+        .textBold(pad("Product", totalWidth / 2) + pad(totalWidth / 2, "Price"))
         .horizontalLine("—")
 
         .textBold(pad("Lobi Snapback", totalWidth / 2) + pad(totalWidth / 2, "€ 19,99")).newLine()
@@ -282,6 +284,12 @@ export class HelloWorldModel extends Observable {
         });
       }
     });
+  }
+
+  public doGetPrinterStatus(): void {
+    this.starPrinter.getPrinterStatus({
+      portName: this.lastConnectedPrinterPort
+    }).then(result => this.set("message", JSON.stringify(result)));
   }
 
   public doOpenCashDrawer(): void {

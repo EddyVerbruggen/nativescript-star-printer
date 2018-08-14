@@ -63,23 +63,32 @@ in other API methods.
 
 The only other property is `modelName`.
 
-### `online`
-Check whether or not the printer is online.
+### `connect`
+Once you know the printer port name, you can connect to it.
+
+> Note that there's no need to connect if you want to print as the print function does this automatically.
 
 ```typescript
-const printerOnline = this.starPrinter.online;
+this.starPrinter.connect({
+  portName: thePortName
+}).then((result: SPPrinterStatusResult) => console.log("Connected: " + result.connected));
 ```
 
-### `paperStatus`
-Check the paper status.
+### `getPrinterStatus`
+After connecting to a printer, you can use this method to poll for the 'online' and 'paper' statuses.
 
 ```typescript
-// possible values: "UNKNOWN" | "NEAR_EMPTY" | "EMPTY" | "READY"
-const paperStatus: PrinterPaperStatus = this.starPrinter.paperStatus;
+this.starPrinter.getPrinterStatus({
+  portName: this.lastConnectedPrinterPort
+}).then(result => {
+  const online: boolean = result.online;
+  const onlineStatus: PrinterOnlineStatus = result.onlineStatus;
+  const paperStatus: PrinterPaperStatus = result.paperStatus;
+});
 ```
 
 ### `print`
-Once you've got the port of the printer you want to print on, just do:
+Once you've got the port of the printer you want to print to, just do:
 
 ```typescript
 this.starPrinter.print({
@@ -135,7 +144,7 @@ this.starPrinter.print({
 ```
 
 ### `openCashDrawer`
-When a cash drawer is connected via the UTP (network) connector of the Star printer,
+In case a cash drawer is connected via the UTP (network) connector of the Star printer,
 you can open the drawer from your code!
 
 ```typescript

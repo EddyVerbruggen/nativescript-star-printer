@@ -1,13 +1,17 @@
 import {ImageSource} from "tns-core-modules/image-source";
 import {
   PrinterFont,
+  PrinterOnlineStatus,
+  PrinterPaperStatus,
   SPBarcodeCommand,
   SPCommandsCommon,
   SPConnectOptions,
   SPConnectResult,
   SPDisconnectOptions,
+  SPGetPrinterStatusOptions,
   SPOpenCashDrawerOptions,
   SPPrinter,
+  SPPrinterStatusResult,
   SPPrintOptions,
   SPSearchPrinterOptions,
   SPToggleAutoConnectOptions,
@@ -190,8 +194,25 @@ export class StarPrinter implements StarPrinterApi {
         TNSStarPrinter.connectOnComplete(options.portName, (result: NSDictionary<NSString, any>) => {
           resolve({
             connected: result.valueForKey("connected"),
-            online: result.valueForKey("online"),
-            paperStatus: result.valueForKey("paperStatus")
+            online: <PrinterOnlineStatus>result.valueForKey("onlineStatus") === "ONLINE",
+            onlineStatus: <PrinterOnlineStatus>result.valueForKey("onlineStatus"),
+            paperStatus: <PrinterPaperStatus>result.valueForKey("paperStatus")
+          });
+        });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  getPrinterStatus(options: SPGetPrinterStatusOptions): Promise<SPPrinterStatusResult> {
+    return new Promise((resolve, reject) => {
+      try {
+        (<any>TNSStarPrinter).getPrinterStatusOnComplete(options.portName, (result: NSDictionary<NSString, any>) => {
+          resolve({
+            online: <PrinterOnlineStatus>result.valueForKey("onlineStatus") === "ONLINE",
+            onlineStatus: <PrinterOnlineStatus>result.valueForKey("onlineStatus"),
+            paperStatus: <PrinterPaperStatus>result.valueForKey("paperStatus")
           });
         });
       } catch (e) {

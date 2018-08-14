@@ -8,10 +8,9 @@
     <Button text="{{ 'Reconnect ' + lastConnectedPrinterPort }}" tap="{{ doConnect }}" class="button button-b" visibility="{{  lastConnectedPrinterPort && !selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Print receipt A" tap="{{ doPrintReceiptA }}" class="button button-c" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Print receipt B" tap="{{ doPrintReceiptB }}" class="button button-c" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
-    <Button text="Print receipt C (NL)" tap="{{ doPrintReceiptC }}" class="button button-c" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
+    <Button text="Print receipt C" tap="{{ doPrintReceiptC }}" class="button button-c" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Open cash drawer" tap="{{ doOpenCashDrawer }}" class="button button-d" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
-    <Button text="Online?" tap="{{ isOnline }}" class="button button-f" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
-    <Button text="Paper status?" tap="{{ getPaperStatus }}" class="button button-f" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
+    <Button text="Printer status" tap="{{ doGetPrinterStatus }}" class="button button-d" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
     <Button text="Disconnect" tap="{{ doDisconnect }}" class="button button-e" visibility="{{  selectedPrinterPort ? 'visible' : 'collapsed' }}"/>
 
     <ActivityIndicator busy="{{ isLoading }}" />

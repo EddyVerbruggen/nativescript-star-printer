@@ -8,6 +8,8 @@
 
 + (void)connect:(NSString *)portName onComplete:(void(^)(NSDictionary* info))completionHandler;
 
++ (void)getPrinterStatus:(NSString *)portName onComplete:(void(^)(NSDictionary* info))completionHandler;
+
 + (void)disconnect:(NSString *)portName onComplete:(void(^)(BOOL disconnected))completionHandler;
 
 + (void)toggleAutoConnect:(NSString *)portName enable:(BOOL)enable onComplete:(void(^)(NSString* error))completionHandler;

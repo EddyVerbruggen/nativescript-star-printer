@@ -20,6 +20,8 @@ export interface SPBarcodeCommand {
 
 export type PrinterFont = "default" | "smaller";
 
+export type PrinterOnlineStatus = "UNKNOWN" | "OFFLINE" | "ONLINE";
+
 export type PrinterPaperStatus = "UNKNOWN" | "NEAR_EMPTY" | "EMPTY" | "READY";
 
 export abstract class SPCommandsCommon {
@@ -59,35 +61,41 @@ export abstract class SPCommandsCommon {
   }
 }
 
-export interface SPOpenCashDrawerOptions {
+export interface SPPrinterPortOptions {
   portName: string;
 }
 
-export interface SPConnectOptions {
-  portName: string;
+export interface SPOpenCashDrawerOptions extends SPPrinterPortOptions {
 }
 
-export interface SPDisconnectOptions {
-  portName: string;
+export interface SPGetPrinterStatusOptions extends SPPrinterPortOptions {
 }
 
-export interface SPToggleAutoConnectOptions {
-  portName: string;
+export interface SPConnectOptions extends SPPrinterPortOptions {
+}
+
+export interface SPDisconnectOptions extends SPPrinterPortOptions {
+}
+
+export interface SPToggleAutoConnectOptions extends SPPrinterPortOptions {
   autoConnect: boolean;
+}
+
+export interface SPPrintOptions extends SPPrinterPortOptions {
+  commands: SPCommandsCommon;
 }
 
 export interface SPSearchPrinterOptions {
 }
 
-export interface SPPrintOptions {
-  portName: string;
-  commands: SPCommandsCommon;
+export interface SPPrinterStatusResult {
+  online: boolean;
+  onlineStatus: PrinterOnlineStatus;
+  paperStatus: PrinterPaperStatus;
 }
 
-export interface SPConnectResult {
+export interface SPConnectResult extends SPPrinterStatusResult {
   connected: boolean;
-  online: boolean;
-  paperStatus: PrinterPaperStatus;
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -103,4 +111,9 @@ export interface StarPrinterApi {
   print(options: SPPrintOptions): Promise<any>;
 
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any>;
+
+  /**
+   * Make sure you call this AFTER connecting to a printer.
+   */
+  getPrinterStatus(options: SPGetPrinterStatusOptions): Promise<SPPrinterStatusResult>;
 }

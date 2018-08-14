@@ -36,6 +36,16 @@ static StarIoExtManager *_starIoExtManager;
     }
 }
 
++ (NSString *)getOnlineStatus {
+    if (_starIoExtManager.printerStatus == StarIoExtManagerPrinterStatusInvalid || _starIoExtManager.printerStatus == StarIoExtManagerPrinterStatusImpossible) {
+        return @"UNKNOWN";
+    } else if (_starIoExtManager.printerStatus == StarIoExtManagerPrinterStatusOffline) {
+        return @"OFFLINE";
+    } else {
+        return @"ONLINE";
+    }
+}
+
 + (void)toggleAutoConnect:(NSString *)portName enable:(BOOL)enable onComplete:(void(^)(NSString* error))completionHandler {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -78,10 +88,22 @@ static StarIoExtManager *_starIoExtManager;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
         completionHandler(@{
                             @"connected": @(connected),
-                            @"online": @(_starIoExtManager.printerStatus == StarIoExtManagerPrinterStatusOnline),
+                            @"onlineStatus": [TNSStarPrinter getOnlineStatus],
                             @"paperStatus": [TNSStarPrinter getPaperStatus]
                             });
     });
+}
+
++ (void)getPrinterStatus:(NSString *)portName onComplete:(void(^)(NSDictionary* info))completionHandler {
+    if (_starIoExtManager == nil) {
+        completionHandler(@{});
+        return;
+    }
+    
+    completionHandler(@{
+                        @"onlineStatus": [TNSStarPrinter getOnlineStatus],
+                        @"paperStatus": [TNSStarPrinter getPaperStatus]
+                        });
 }
 
 + (void)disconnect:(NSString *)portName onComplete:(void(^)(BOOL disconnected))completionHandler {

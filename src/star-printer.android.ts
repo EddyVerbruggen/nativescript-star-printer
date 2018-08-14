@@ -6,9 +6,9 @@ import {
   SPCommandsCommon,
   SPConnectOptions,
   SPConnectResult,
-  SPDisconnectOptions,
+  SPDisconnectOptions, SPGetPrinterStatusOptions,
   SPOpenCashDrawerOptions,
-  SPPrinter,
+  SPPrinter, SPPrinterStatusResult,
   SPPrintOptions,
   SPSearchPrinterOptions,
   SPToggleAutoConnectOptions,
@@ -187,8 +187,15 @@ export class StarPrinter implements StarPrinterApi {
       resolve({
         connected: true,
         online: true, // TODO actual value
+        onlineStatus: "UNKNOWN", // TODO actual value
         paperStatus: "UNKNOWN" // TODO actual value
       });
+    });
+  }
+
+  getPrinterStatus(options: SPGetPrinterStatusOptions): Promise<SPPrinterStatusResult> {
+    return new Promise((resolve, reject) => {
+      reject("Not currently implemented for Android");
     });
   }
 
