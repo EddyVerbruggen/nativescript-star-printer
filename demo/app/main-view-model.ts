@@ -5,7 +5,7 @@ import * as AppSettings from "tns-core-modules/application-settings";
 import {ObservableArray} from "tns-core-modules/data/observable-array";
 import {SPCommands, SPPrinter, StarPrinter} from "nativescript-star-printer";
 
-const pad = require('pad');
+import pad from "pad";
 
 export class HelloWorldModel extends Observable {
   private static LOADING_KEY = "isLoading";
