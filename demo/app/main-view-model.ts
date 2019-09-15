@@ -1,11 +1,11 @@
-import {Observable} from "tns-core-modules/data/observable";
-import * as ImageSource from "tns-core-modules/image-source";
-import {alert} from "tns-core-modules/ui/dialogs";
-import * as AppSettings from "tns-core-modules/application-settings";
-import {ObservableArray} from "tns-core-modules/data/observable-array";
-import {SPCommands, SPPrinter, StarPrinter} from "nativescript-star-printer";
+import { SPCommands, SPPrinter, StarPrinter } from "nativescript-star-printer";
 
-import pad from "pad";
+import * as pad from "pad";
+import * as AppSettings from "tns-core-modules/application-settings";
+import { Observable } from "tns-core-modules/data/observable";
+import { ObservableArray } from "tns-core-modules/data/observable-array";
+import * as ImageSource from "tns-core-modules/image-source";
+import { alert } from "tns-core-modules/ui/dialogs";
 
 export class HelloWorldModel extends Observable {
   private static LOADING_KEY = "isLoading";
