@@ -13,7 +13,7 @@
     "nativescript-theme-core": "~1.0.4",
     "nativescript-unit-test-runner": "0.7.0",
     "tns-core-modules": "~6.4.0",
-    "pad": "^3.2.0"
+    "pad": "^1.1.0"
   },
   "devDependencies": {
     "babel-traverse": "6.26.0",
