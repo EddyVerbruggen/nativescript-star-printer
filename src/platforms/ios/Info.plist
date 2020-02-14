@@ -8,6 +8,8 @@
     </array>
     <key>NSBluetoothPeripheralUsageDescription</key>
     <string>For printing</string>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>For printing</string>
   </dict>
 </plist>
 
