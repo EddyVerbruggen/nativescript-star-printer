@@ -15,4 +15,10 @@ typedef enum _SMEmulation {
     SMEmulationESCPOS
 } SMEmulation;
 
+typedef enum {
+    SMConnectionResultSuccess = 0,
+    SMConnectionResultFailure = -1,
+    SMConnectionResultRejected = -2
+} SMConnectionResult;
+
 #endif

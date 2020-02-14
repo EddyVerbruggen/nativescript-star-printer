@@ -29,6 +29,7 @@
 #define STARIOPORT_API DLL_IMPORT
 #endif
 
+#include "PreventingNameConflicts.h"
 
 typedef struct StarPrinterStatus_
 {
@@ -163,6 +164,9 @@ typedef struct StarPrinterStatus_2_
   // printer status 7
   UCHAR presenterState;
 
+  // printer status 10
+  UCHAR connectedInterface;
+
   // raw
   UINT32 rawLength;
   UCHAR raw[63];
@@ -244,7 +248,7 @@ extern "C"
 
 #else
 
-    STARIOPORT_API void * CALL_CONVENT OpenPort(char const * portName, char const * portSettings, UINT32 ioRequestTimeoutMillis, SMEmulation emulation);
+    STARIOPORT_API void * CALL_CONVENT OpenPort(char const * portName, char const * portSettings, UINT32 ioRequestTimeoutMillis, SMEmulation emulation, SMConnectionResult *connectionResult);
     
 #endif
 
@@ -473,10 +477,10 @@ void SetEndCheckedBlockTimeoutMillis(void * port, UINT32 timeoutMillis);
 
 #pragma mark Private
     
-    STARIOPORT_API SM_BOOLEAN CALL_CONVENT IsUSBSharing(void * port);
+STARIOPORT_API SM_BOOLEAN CALL_CONVENT IsUSBSharing(void * port);
     
-    STARIOPORT_API SM_BOOLEAN CALL_CONVENT IsDKAirCash(void * port);
-
+STARIOPORT_API SM_BOOLEAN CALL_CONVENT IsDKAirCash(void * port);
+    
 
     
 #ifdef __cplusplus

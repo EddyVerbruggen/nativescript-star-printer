@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Internal/StarIoExtResultCode.h"
+
 #import "ISCBBuilder.h"
 #import "ISDCBBuilder.h"
-#import "ISSCBBuilder.h"
+#import "ISMCBBuilder.h"
 
 #import "ISCPConnectParser.h"
-
-#import "ISSCPWeightParser.h"
 
 typedef NS_ENUM(NSInteger, StarIoExtEmulation) {     // Don't insert!
     StarIoExtEmulationNone = 0,
@@ -37,7 +37,8 @@ typedef NS_ENUM(NSInteger, StarIoExtCharacterCode) {     // Don't insert!
 
 typedef NS_ENUM(NSInteger, StarIoExtBcrModel) {     // Don't insert!
     StarIoExtBcrModelNone = 0,
-    StarIoExtBcrModelPOP1
+    StarIoExtBcrModelPOP1,
+    StarIoExtBcrModelDS9208
 };
 
 typedef NS_ENUM(NSInteger, StarIoExtDisplayModel) {     // Don't insert!
@@ -45,11 +46,10 @@ typedef NS_ENUM(NSInteger, StarIoExtDisplayModel) {     // Don't insert!
     StarIoExtDisplayModelSCD222
 };
 
-typedef NS_ENUM(NSInteger, StarIoExtScaleModel) {     // Don't insert!
-    StarIoExtScaleModelNone = 0,
-    StarIoExtScaleModelAPS10,
-    StarIoExtScaleModelAPS12,
-    StarIoExtScaleModelAPS20
+typedef NS_ENUM(NSUInteger, StarIoExtMelodySpeakerModel) {     // Don't insert!
+    StarIoExtMelodySpeakerModelNone = 0,
+    StarIoExtMelodySpeakerModelMCS10,
+    StarIoExtMelodySpeakerModelFVP10
 };
 
 @interface StarIoExt : NSObject
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, StarIoExtScaleModel) {     // Don't insert!
 
 + (ISDCBBuilder *)createDisplayCommandBuilder:(StarIoExtDisplayModel)model;
 
-+ (ISSCBBuilder *)createScaleCommandBuilder:(StarIoExtScaleModel)model;
++ (ISMCBBuilder *)createMelodySpeakerCommandBuilder:(StarIoExtMelodySpeakerModel)model;
 
 #pragma mark - Parser
 
@@ -72,8 +72,7 @@ typedef NS_ENUM(NSInteger, StarIoExtScaleModel) {     // Don't insert!
 
 + (ISCPConnectParser *)createDisplayConnectParser:(StarIoExtDisplayModel)model;
 
-+ (ISCPConnectParser *)createScaleConnectParser:(StarIoExtScaleModel)model;
-
-+ (ISSCPWeightParser *)createScaleWeightParser:(StarIoExtScaleModel)model;
++ (ISCPConnectParser *)createMelodySpeakerConnectParser:(StarIoExtMelodySpeakerModel)model
+                                                  error:(NSError **)error;
 
 @end

@@ -44,10 +44,18 @@
 @property(retain) NSThread *thread71;
 @property(retain) NSNumber *result71;
 
-@property(assign, readonly) float secShortInterval;
-@property(assign, readonly) float secInterval;
+@property(assign, readonly) float secInterval1;
+@property(assign, readonly) float secInterval2;
 
-- (id)initWithPortName:(NSString *)portName portSettings:(NSString *)portSettings timeout:(u_int32_t)timeout emulation:(SMEmulation)emulation;
+@property(retain, nonatomic) NSString *name;
+@property(retain, nonatomic) NSString *serialNumber;
+
+@property(nonatomic) NSUInteger connectionID;
+
+- (id)initWithPortName:(NSString *)portName
+          portSettings:(NSString *)portSettings
+               timeout:(u_int32_t)timeout
+             emulation:(SMEmulation)emulation;
 - (BOOL)open;
 - (int)write:(NSData *)data;
 - (NSData *)read:(NSUInteger)bytesToRead;

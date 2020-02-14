@@ -22,6 +22,4 @@ typedef StarIoExtParserCompletionResult (^StarIoExtParserCompletionHandler)(uint
 
 - (NSData *)createSendCommands;
 
-- (NSData *)createReceiveCommands;
-
 @end

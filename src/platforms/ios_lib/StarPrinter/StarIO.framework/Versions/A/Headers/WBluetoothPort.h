@@ -34,6 +34,9 @@
 
 @property (retain, readonly) NSString *firmwareInformation;
 
+@property(retain, nonatomic) NSString *name;
+@property(retain, nonatomic) NSString *serialNumber;
+
 - (id)initWithPortName:(NSString *)portName portSettings:(NSString *)portSettings timeout:(u_int32_t)timeout;
 - (BOOL)open;
 - (int32_t)write:(NSData *)data;

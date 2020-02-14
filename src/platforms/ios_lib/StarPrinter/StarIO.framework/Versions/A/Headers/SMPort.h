@@ -21,16 +21,17 @@
 #import "WBluetoothPort.h"
 #import "ExternalAccessoryPort.h"
 #import "Lock.h"
+#import "SMFileLogger.h"
+#import "SMStarIOResultCode.h"
 
-@interface PortException : NSException
-{
-}
+#import "exceptions/PortException.h"
 
-@end
 
 @interface PortInfo : NSObject
 
-- (id)initWithPortName:(NSString *)portName_ macAddress:(NSString *)macAddress_ modelName:(NSString *)modelName_;
+- (id)initWithPortName:(NSString *)portName_
+            macAddress:(NSString *)macAddress_
+             modelName:(NSString *)modelName_;
 
 @property(retain, readonly) NSString *portName;
 @property(retain, readonly) NSString *macAddress;
@@ -49,18 +50,22 @@
     BOOL checkedBlockSupport;
 }
 
+@property(assign, nonatomic) NSString *name;
+@property(assign, nonatomic) NSString *identifier;
+
+@property(nonatomic) NSUInteger connectionID;
+
 @property(assign, readwrite, nonatomic) u_int32_t endCheckedBlockTimeoutMillis;
 
 + (NSString *)StarIOVersion;
-
-- (id)init:(NSString *)portName :(NSString *)portSettings :(u_int32_t)ioTimeoutMillis;
 
 /*!
  *  Search printer on LAN or paired bluetooth device.
  *
  *  @return List of printers that were found.
  */
-+ (NSArray *)searchPrinter;
++ (NSArray *)searchPrinter
+__attribute__((deprecated("Please replace this method with 'searchPrinter(target:) throws' for Swift or 'searchPrinter:(NSString *)target :(NSError **)error' for Objective-C, and pass 'ALL:' as the target argument.")));
 
 /*!
  *  Search printer on LAN or paired bluetooth device.
@@ -69,7 +74,8 @@
  *
  *  @return List of printers that were found.
  */
-+ (NSArray *)searchPrinter:(NSString *)target;
++ (NSArray *)searchPrinter:(NSString *)target
+__attribute__((deprecated("Please replace this method with 'searchPrinter(target:) throws' for Swift or 'searchPrinter:(NSString *)target :(NSError **)error' for Objective-C.")));
 
 /*!
  *  This function opens a connection to the port specified.
@@ -85,7 +91,8 @@
  *
  *  @return SMPort class for StarIO port.
  */
-+ (SMPort *)getPort:(NSString *)portName :(NSString *)portSettings :(u_int32_t)ioTimeoutMillis;
++ (SMPort *)getPort:(NSString *)portName :(NSString *)portSettings :(u_int32_t)ioTimeoutMillis
+__attribute__((deprecated("Please replace this method with 'getPort(portName:portSettings:ioTimeoutMillis:) throws' for Swift or 'getPort:(NSString *)portName :(NSString *)portSettings :(u_int32_t)ioTimeoutMillis :(NSError **)error;' for Objective-C.")));
 
 /*!
  *  This function closes a connection to the port specified.
@@ -105,7 +112,10 @@
  *
  *  @note Throws PortException on failure.
  */
-- (u_int32_t)writePort:(u_int8_t const *)writeBuffer :(u_int32_t)offSet :(u_int32_t)size;
+- (u_int32_t)writePort:(u_int8_t const *)writeBuffer :(u_int32_t)offSet :(u_int32_t)size
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception. "
+                     "Please replace this method with 'write(writeBuffer:offset:size:numberOfBytesWritten:) throws'.")
+__attribute__((deprecated("Please replace this method with 'write(writeBuffer:offset:size:numberOfBytesWritten:) throws' for Swift or 'writePort:(u_int8_t const *)writeBuffer :(u_int32_t)offSet :(u_int32_t)size :(NSError **)error;' for Objective-C.")));
 
 /*!
  *  This function reads data from the device.
@@ -118,7 +128,12 @@
  *
  *  @note Throws PortException on failure.
  */
-- (u_int32_t)readPort:(u_int8_t *)readBuffer :(u_int32_t)offSet :(u_int32_t)size;
+- (u_int32_t)readPort:(u_int8_t *)readBuffer
+                     :(u_int32_t)offSet
+                     :(u_int32_t)size
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception. "
+                     "Please replace this method with 'read(readBuffer:offset:size:numberOfBytesRead:) throws'.")
+__attribute__((deprecated("Please replace this method with 'read(readBuffer:offset:size:numberOfBytesRead:) throws' for Swift or 'readPort:(u_int8_t *)readBuffer :(u_int32_t)offSet :(u_int32_t)size :(NSError **)error' for Objective-C.")));
 
 /*!
  *  This function retreives the device's detailed status.
@@ -129,21 +144,31 @@
  *
  *  @note Throws PortException on failure.
  */
-- (void)getParsedStatus:(void *)starPrinterStatus :(u_int32_t)level;
+- (void)getParsedStatus:(void *)starPrinterStatus
+                       :(u_int32_t)level
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'getParsedStatus(starPrinterStatus:level:) throws'.")
+__attribute__((deprecated("Please replace this method with 'getParsedStatus(starPrinterStatus:level:) throws' for Swift or 'getParsedStatus:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error' for Objective-C.")));
 
 /*!
  *  This function retrieves the device's firmware information.
  *
  *  @return NSDictionary class that contains firmware information.
  */
-- (NSDictionary *)getFirmwareInformation;
+- (NSDictionary *)getFirmwareInformation
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'getFirmwareInformation() throws'.")
+__attribute__((deprecated("Please replace this method with 'getFirmwareInformation() throws' for Swift or 'getFirmwareInformation:(NSError **)error' for Objective-C.")));
 
 /*!
  *  This function retrieves the device's Dip Switch information.
  *
  *  @return NSDictionary class that contains Dip Switch information.
  */
-- (NSDictionary *)getDipSwitchInformation;
+- (NSDictionary *)getDipSwitchInformation
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'getDipSwitchInformation(error:)'.")
+__attribute__((deprecated("Please replace this method with 'getDipSwitchInformation(error:)'.")));
 
 /*!
  *  This function retreives the device's online status.
@@ -153,7 +178,10 @@
  *
  *  @note Throws PortException on failure.
  */
-- (bool)getOnlineStatus;
+- (bool)getOnlineStatus
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'getOnlineStatusWithError(error:)'.")
+__attribute__((deprecated("Please replace this method with 'getOnlineStatusWithError(error:)'.")));
 
 /*!
  *  This function initiates a checked block printing operation and returns the devices detailed status.
@@ -164,7 +192,10 @@
  *
  *  @note Throws PortException on failure.
  */
-- (void)beginCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level;
+- (void)beginCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'beginCheckedBlock(starPrinterStatus:level:) throws'.")
+__attribute__((deprecated("Please replace this method with 'beginCheckedBlock(starPrinterStatus:level:) throws' for Swift or 'beginCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error' for Objective-C.")));
 
 /*!
  *  This function ends a checked block printing operation and returns the devices detailed status.
@@ -177,7 +208,10 @@
  *
  *  @note Throws PortException on failure
  */
-- (void)endCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level;
+- (void)endCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level
+NS_SWIFT_UNAVAILABLE("This method throws an Objective-C exception."
+                     "Please replace this method with 'endCheckedBlock(starPrinterStatus:level:) throws'.")
+__attribute__((deprecated("Please replace this method with 'endCheckedBlock(starPrinterStatus:level:) throws' for Swift or 'endCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error' for Objective-C.")));
 
 /*!
  *  Disconnect Bluetooth port for Desktop Printer and DK-AirCash.
@@ -186,36 +220,67 @@
  */
 - (BOOL)disconnect;
 
-
-+ (NSMutableData *)compressRasterData:(int32_t)width :(int32_t)height :(u_int8_t *)imageData :(NSString *)portSettings;
-+ (NSMutableData *)generateBitImageCommand:(int32_t)width :(int32_t)height :(u_int8_t *)imageData :(NSString *)portSettings __attribute__((deprecated));
-
-- (NSString *)portName;
-- (NSString *)portSettings;
-- (u_int32_t)timeoutMillis;
-- (BOOL)connected;
-
-+ (void)setMACAddressSourceBlock:(NSString *(^)(EAAccessory *accessory))macAddressSourceBlock;
-
 //
 // NSError was added to the argument of API.
 //
 
-- (u_int32_t)writePort:(u_int8_t const *)writeBuffer :(u_int32_t)offSet :(u_int32_t)size :(NSError **)error;
++ (NSArray *)searchPrinter:(NSString *)target
+                          :(NSError **)error NS_SWIFT_NOTHROW;
 
-- (u_int32_t)readPort:(u_int8_t *)readBuffer :(u_int32_t)offSet :(u_int32_t)size :(NSError **)error;
++ (SMPort *)getPort:(NSString *)portName
+                   :(NSString *)portSettings
+                   :(u_int32_t)ioTimeoutMillis
+                   :(NSError **)error NS_SWIFT_NOTHROW;
 
-- (SM_BOOLEAN)getParsedStatus:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error;
+- (u_int32_t)writePort:(u_int8_t const *)writeBuffer
+                      :(u_int32_t)offSet
+                      :(u_int32_t)size
+                      :(NSError **)error;
 
-- (NSDictionary *)getFirmwareInformation:(NSError **)error;
+- (u_int32_t)readPort:(u_int8_t *)readBuffer
+                     :(u_int32_t)offSet
+                     :(u_int32_t)size
+                     :(NSError **)error;
 
-- (NSDictionary *)getDipSwitchInformation:(NSError **)error;
+- (SM_BOOLEAN)getParsedStatus:(void *)starPrinterStatus
+                             :(u_int32_t)level
+                             :(NSError **)error;
 
-- (bool)getOnlineStatus:(NSError **)error __attribute__((unavailable("Not available. Please change to getOnlineStatusWithError:.")));
+- (NSDictionary *)getFirmwareInformation:(NSError **)error NS_SWIFT_NOTHROW;
+
+- (NSDictionary *)getDipSwitchInformation:(NSError **)error NS_SWIFT_NOTHROW;
+
+- (bool)getOnlineStatus:(NSError **)error
+__attribute__((unavailable("Not available. Please replace this method with 'getOnlineStatusWithError(error:)'.")));
+
 - (SM_BOOLEAN)getOnlineStatusWithError:(NSError **)error;
 
 - (SM_BOOLEAN)beginCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error;
 
 - (SM_BOOLEAN)endCheckedBlock:(void *)starPrinterStatus :(u_int32_t)level :(NSError **)error;
+
+- (BOOL)disconnect:(NSError **)error NS_SWIFT_NOTHROW;
+
+
+
++ (NSMutableData *)compressRasterData:(int32_t)width
+                                     :(int32_t)height
+                                     :(u_int8_t *)imageData
+                                     :(NSString *)portSettings;
+
++ (NSMutableData *)generateBitImageCommand:(int32_t)width
+                                          :(int32_t)height
+                                          :(u_int8_t *)imageData
+                                          :(NSString *)portSettings __attribute__((deprecated));
+
+- (NSString *)portName;
+
+- (NSString *)portSettings;
+
+- (u_int32_t)timeoutMillis;
+
+- (BOOL)connected;
+
++ (void)setMACAddressSourceBlock:(NSString *(^)(EAAccessory *accessory))macAddressSourceBlock;
 
 @end
