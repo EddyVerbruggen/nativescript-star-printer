@@ -53,10 +53,9 @@ export abstract class SPCommandsCommon {
 
   abstract image(imageSource: ImageSource, diffuse?: boolean /* default true */, alignCenter?: boolean /* default true */): SPCommandsCommon;
 
-  horizontalLine(character = "─"): SPCommandsCommon {
+  horizontalLine(character = "─", nrOfCharacters: number = 48 /* 3" paper roll */): SPCommandsCommon {
     this.newLine();
-    // assuming 3" paper roll (48 characters)
-    this.text(character.repeat(48));
+    this.text(character.repeat(nrOfCharacters));
     return this.newLine();
   }
 }

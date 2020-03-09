@@ -175,7 +175,7 @@ export class HelloWorldModel extends Observable {
         .text("Custom header tekst").newLine()
         .newLine()
         .textLarge("COPY").newLine()
-        .horizontalLine("▀")
+        .horizontalLine("▀", 42) // try this if you have a smaller roll
         .text(pad("Order", totalWidth / 2) + pad(totalWidth / 2, "Date/Time")).newLine()
         .text(pad("201800001", totalWidth / 2) + pad(totalWidth / 2, "19-06-2018 12:00"))
         .horizontalLine("▀")
