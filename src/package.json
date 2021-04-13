@@ -1,13 +1,13 @@
 {
   "name": "nativescript-star-printer",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "Print directly to Star printers from your NativeScript app.",
   "main": "star-printer",
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "android": "2.5.0",
-      "ios": "2.5.0"
+      "android": "7.0.0",
+      "ios": "7.0.0"
     }
   },
   "scripts": {
@@ -52,9 +52,10 @@
   "homepage": "https://github.com/EddyVerbruggen/nativescript-star-printer",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "tns-core-modules": "~6.4.0",
-    "tns-platform-declarations": "~6.4.0",
-    "typescript": "~3.4.5",
-    "tslint": "^5.0.0"
+    "@nativescript/core": "^8.0.0",
+    "@nativescript/types": "^8.0.0",
+    "@nativescript/webpack": "^3.0.0",
+    "typescript": "~4.0.7",
+    "tslint": "^5.12.1"
   }
 }
