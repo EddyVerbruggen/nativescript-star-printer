@@ -1,4 +1,4 @@
-import {ImageSource} from "tns-core-modules/image-source";
+import { ImageSource } from "@nativescript/core";
 
 export class SPPrinter {
   portName: string;

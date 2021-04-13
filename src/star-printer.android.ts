@@ -1,5 +1,5 @@
-import {ImageSource} from "tns-core-modules/image-source";
-import * as utils from "tns-core-modules/utils/utils";
+import { ImageSource, Utils } from "@nativescript/core";
+
 import {
   PrinterFont,
   SPBarcodeCommand,
@@ -146,7 +146,7 @@ export class StarPrinter implements StarPrinterApi {
 
   print(options: SPPrintOptions): Promise<any> {
     return new Promise((resolve, reject) => {
-      let port = StarIOPort.getPort(options.portName, "", 10000, utils.ad.getApplicationContext());
+      let port = StarIOPort.getPort(options.portName, "", 10000, Utils.ad.getApplicationContext());
       if (port === null) {
         console.log("no port");
         reject("no port");
@@ -219,7 +219,7 @@ export class StarPrinter implements StarPrinterApi {
   openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        let port = StarIOPort.getPort(options.portName, "", 10000, utils.ad.getApplicationContext());
+        let port = StarIOPort.getPort(options.portName, "", 10000, Utils.ad.getApplicationContext());
         if (port === null) {
           console.log("no port");
           reject("no port");

@@ -17,6 +17,9 @@
 _That's [the demo app](https://github.com/EddyVerbruggen/nativescript-star-printer/tree/master/demo) in action, printing on a Star Micronics TSP650II_
 
 ## Installation
+
+> For NativeScript 7+, please use plugin version 4+ 
+
 ```bash
 tns plugin add nativescript-star-printer
 ```

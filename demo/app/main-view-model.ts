@@ -1,11 +1,9 @@
 import { SPCommands, SPPrinter, StarPrinter } from "nativescript-star-printer";
 
 import * as pad from "pad";
-import * as AppSettings from "tns-core-modules/application-settings";
-import { Observable } from "tns-core-modules/data/observable";
-import { ObservableArray } from "tns-core-modules/data/observable-array";
-import * as ImageSource from "tns-core-modules/image-source";
-import { alert } from "tns-core-modules/ui/dialogs";
+import * as AppSettings from '@nativescript/core/application-settings';
+import { Observable, ObservableArray, Dialogs } from '@nativescript/core';
+import * as ImageSource from '@nativescript/core/image-source';
 
 export class HelloWorldModel extends Observable {
   private static LOADING_KEY = "isLoading";
@@ -260,7 +258,7 @@ export class HelloWorldModel extends Observable {
       if (result.connected) {
         this.set(HelloWorldModel.SELECTED_PRINTER_KEY, this.lastConnectedPrinterPort);
       } else {
-        alert({
+        Dialogs.alert({
           title: "Connection failed?",
           message: "Connect via the Bluetooth settings of your device",
           okButtonText: "OK, will do"
@@ -277,7 +275,7 @@ export class HelloWorldModel extends Observable {
         this.printers.splice(0);
         this.set(HelloWorldModel.SELECTED_PRINTER_KEY, undefined);
       } else {
-        alert({
+        Dialogs.alert({
           title: "Connection failed?",
           message: "Connect via the Bluetooth settings of your device",
           okButtonText: "OK, will do"

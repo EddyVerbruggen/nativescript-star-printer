@@ -1,29 +1,21 @@
 {
-  "nativescript": {
-    "id": "org.nativescript.demo",
-    "tns-ios": {
-      "version": "6.4.0"
-    },
-    "tns-android": {
-      "version": "6.4.1"
-    }
-  },
   "dependencies": {
     "nativescript-star-printer": "file:../src",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-unit-test-runner": "0.7.0",
-    "tns-core-modules": "~6.4.0",
-    "pad": "^1.1.0"
+    "pad": "^1.1.0",
+    "@nativescript/core": "~8.0.0"
   },
   "devDependencies": {
+    "@nativescript/ios": "8.0.0",
+    "@nativescript/types": "^8.0.0",
+    "@nativescript/webpack": "~5.0.0-beta.0",
     "babel-traverse": "6.26.0",
     "babel-types": "6.26.0",
     "babylon": "6.18.0",
+    "karma-webpack": "3.0.5",
     "lazy": "1.0.11",
-    "nativescript-dev-webpack": "~1.5.0",
-    "tns-platform-declarations": "~6.4.0",
-    "typescript": "3.4.5",
-    "karma-webpack": "3.0.5"
+    "typescript": "~4.0.0"
   },
   "scripts": {
     "build.plugin": "cd ../src && npm run build",
@@ -35,5 +27,6 @@
     "start-ios-bundle": "npm run ns-bundle --ios --run-app",
     "build-android-bundle": "npm run ns-bundle --android --build-app",
     "build-ios-bundle": "npm run ns-bundle --ios --build-app"
-  }
+  },
+  "main": "./app/app.ts"
 }

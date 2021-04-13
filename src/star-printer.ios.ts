@@ -1,22 +1,6 @@
-import {ImageSource} from "tns-core-modules/image-source";
-import {
-  PrinterFont,
-  PrinterOnlineStatus,
-  PrinterPaperStatus,
-  SPBarcodeCommand,
-  SPCommandsCommon,
-  SPConnectOptions,
-  SPConnectResult,
-  SPDisconnectOptions,
-  SPGetPrinterStatusOptions,
-  SPOpenCashDrawerOptions,
-  SPPrinter,
-  SPPrinterStatusResult,
-  SPPrintOptions,
-  SPSearchPrinterOptions,
-  SPToggleAutoConnectOptions,
-  StarPrinterApi
-} from "./star-printer.common";
+import { ImageSource } from "@nativescript/core";
+
+import { PrinterFont, PrinterOnlineStatus, PrinterPaperStatus, SPBarcodeCommand, SPCommandsCommon, SPConnectOptions, SPConnectResult, SPDisconnectOptions, SPGetPrinterStatusOptions, SPOpenCashDrawerOptions, SPPrinter, SPPrinterStatusResult, SPPrintOptions, SPSearchPrinterOptions, SPToggleAutoConnectOptions, StarPrinterApi } from "./star-printer.common";
 
 /**
  * Doc: http://www.starmicronics.com/support/Mannualfolder/linemode_cm_en.pdf
