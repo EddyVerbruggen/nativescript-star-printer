@@ -102,6 +102,15 @@ export class SPCommands extends SPCommandsCommon {
     return this;
   }
 
+  imagePositioned(imageSource: ImageSource, width: number, position: number, bothScale?: boolean, diffuse?: boolean, alignCenter?: boolean): SPCommandsCommon {
+    const imageData = TNSStarPrinter.getBitmapWithFixedWidthCommandWithDiffusionAndCenterAlignmentAndWidthAndBothScaleAndPosition(imageSource.ios, diffuse !== false, alignCenter !== false, width, bothScale !== false, position);
+    this._commands.appendData(imageData);
+
+    // reset codepage because the image alters it
+    this.setCodepageUtf8();
+    return this;
+  }
+
   cutPaper(): SPCommandsCommon {
     return this.appendBytes([0x1b, 0x64, 0x03]);
   }

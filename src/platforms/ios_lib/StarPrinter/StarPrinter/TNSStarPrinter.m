@@ -132,6 +132,22 @@ static StarIoExtManager *_starIoExtManager;
     return [builder.commands copy];
 }
 
++ (NSData *)getBitmapWithFixedWidthCommand:(UIImage *)image withDiffusion:(BOOL)diffusion andCenterAlignment:(BOOL)alignCenter andWidth:(NSInteger)width andBothScale:(BOOL)bothScale andPosition:(NSInteger)position{
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarLine];
+    
+    [builder beginDocument];
+    
+    [builder appendBitmapWithAbsolutePosition:image
+                                    diffusion:diffusion
+                                        width:width
+                                    bothScale:bothScale
+                                     position:(alignCenter ? SCBAlignmentPositionCenter : SCBAlignmentPositionLeft)];
+    
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SMPort *port = nil;

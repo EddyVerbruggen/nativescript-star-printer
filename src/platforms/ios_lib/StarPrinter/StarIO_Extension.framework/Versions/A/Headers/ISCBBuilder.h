@@ -240,6 +240,20 @@ typedef NS_ENUM(NSInteger, SCBCjkUnifiedIdeographFont) {
     SCBCjkUnifiedIdeographFontHangul             = 4
 };
 
+#pragma mark - Hold Print
+
+typedef NS_ENUM(NSInteger, SCBHoldPrintType) {
+    SCBHoldPrintTypeInvalid = 1,
+    SCBHoldPrintTypeValid = 2,
+    SCBHoldPrintTypeDefault = 3,
+};
+
+typedef NS_ENUM(NSInteger, SCBPaperPresentStatusType) {
+    SCBPaperPresentStatusTypeInvalid = 1,
+    SCBPaperPresentStatusTypeValid = 2,
+    SCBPaperPresentStatusTypeDefault = 3,
+};
+
 @interface ISCBBuilder : NSObject
 
 @property (nonatomic, readonly) NSMutableData *commands;
@@ -645,6 +659,12 @@ typedef NS_ENUM(NSInteger, SCBCjkUnifiedIdeographFont) {
 #pragma mark - CJK Unified Ideograph Font
 
 - (void)appendCjkUnifiedIdeographFont:(NSArray<NSNumber *> *)fonts;
+
+#pragma mark - Hold Print
+
+- (void)appendHoldPrint:(SCBHoldPrintType)type;
+
+- (void)appendPaperPresentStatus:(SCBPaperPresentStatusType)type;
 
 #pragma mark - PageMode
 

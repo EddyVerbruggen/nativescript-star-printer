@@ -7,6 +7,7 @@
     "@nativescript/core": "~8.0.0"
   },
   "devDependencies": {
+    "@nativescript/android": "8.0.0",
     "@nativescript/ios": "8.0.0",
     "@nativescript/types": "^8.0.0",
     "@nativescript/webpack": "~5.0.0-beta.0",

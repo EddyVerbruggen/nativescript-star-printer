@@ -14,7 +14,16 @@
 
 + (void)toggleAutoConnect:(NSString *)portName enable:(BOOL)enable onComplete:(void(^)(NSString* error))completionHandler;
 
-+ (NSData *)getBitmapCommand:(UIImage *)image withDiffusion:(BOOL)diffusion andCenterAlignment:(BOOL)alignCenter;
++ (NSData *)getBitmapCommand:(UIImage *)image
+               withDiffusion:(BOOL)diffusion
+          andCenterAlignment:(BOOL)alignCenter;
+
++ (NSData *)getBitmapWithFixedWidthCommand:(UIImage *)image
+                             withDiffusion:(BOOL)diffusion
+                        andCenterAlignment:(BOOL)alignCenter
+                                  andWidth:(NSInteger)width
+                              andBothScale:(BOOL)bothScale
+                               andPosition:(NSInteger)position;
 
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler;
 

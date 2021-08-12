@@ -119,6 +119,11 @@ export class SPCommands extends SPCommandsCommon {
     return this;
   }
 
+  imagePositioned(imageSource: ImageSource, width: number, position: number, bothScale?: boolean, diffuse?: boolean, alignCenter?: boolean): SPCommandsCommon {
+    // TODO see iOS.. we're now  just calling the same as the 'image' method
+    return this.image(imageSource, diffuse, alignCenter);
+  }
+
   getCommands() {
     this.builder.endDocument();
     return this.builder.getCommands();

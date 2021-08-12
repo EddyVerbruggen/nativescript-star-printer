@@ -57,6 +57,8 @@
 
 @property(assign, readwrite, nonatomic) u_int32_t endCheckedBlockTimeoutMillis;
 
+@property(assign, readwrite, nonatomic) u_int32_t holdPrintTimeoutMillis;
+
 + (NSString *)StarIOVersion;
 
 /*!

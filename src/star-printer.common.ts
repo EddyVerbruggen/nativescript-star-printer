@@ -53,6 +53,8 @@ export abstract class SPCommandsCommon {
 
   abstract image(imageSource: ImageSource, diffuse?: boolean /* default true */, alignCenter?: boolean /* default true */): SPCommandsCommon;
 
+  abstract imagePositioned(imageSource: ImageSource, width: number, position: number, bothScale?: boolean /* default true */, diffuse?: boolean /* default true */, alignCenter?: boolean /* default true */): SPCommandsCommon;
+
   horizontalLine(character = "─", nrOfCharacters: number = 48 /* 3" paper roll */): SPCommandsCommon {
     this.newLine();
     this.text(character.repeat(nrOfCharacters));

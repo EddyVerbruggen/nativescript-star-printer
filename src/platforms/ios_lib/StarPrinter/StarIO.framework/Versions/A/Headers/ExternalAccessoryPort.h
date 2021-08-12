@@ -35,6 +35,7 @@
 
 @property(readonly, getter = isConnected) BOOL connected;
 @property(readwrite) u_int32_t endCheckedBlockTimeoutMillis;
+@property(readwrite) u_int32_t holdPrintTimeoutMillis;
 @property(assign, nonatomic) NSInteger dataTimeoutSeconds;
 
 @property(retain, readonly) NSString *firmwareInformation;
@@ -84,7 +85,7 @@
  *  @return     正常終了した場合は新しいendCheckedBlockTimeoutMillis[ミリ秒], 無効の場合は0, エラー発生時は-1を返す。
  */
 - (NSInteger)retrieveButtonSecurityTimeout;
-- (BOOL)beginCheckedBlock:(StarPrinterStatus_2 *)starPrinterStatus level:(u_int32_t)level;
+- (BOOL)beginCheckedBlock:(StarPrinterStatus_2 *)starPrinterStatus level:(u_int32_t)level resultCode:(NSInteger *)resultCode;
 - (BOOL)endCheckedBlock:(StarPrinterStatus_2 *)starPrinterStatus level:(u_int32_t)level;
 /*!
  *  Bluetoothの接続状況を返す。

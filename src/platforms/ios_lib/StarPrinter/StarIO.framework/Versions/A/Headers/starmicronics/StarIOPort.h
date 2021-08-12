@@ -121,55 +121,58 @@ typedef struct StarPrinterStatus_1_
 
 typedef struct StarPrinterStatus_2_
 {
-  // printer status 1
-  SM_BOOLEAN coverOpen;
-  SM_BOOLEAN offline;
-  SM_BOOLEAN compulsionSwitch;
+    // printer status 1
+    SM_BOOLEAN coverOpen;
+    SM_BOOLEAN offline;
+    SM_BOOLEAN compulsionSwitch;
 
-  // printer status 2
-  SM_BOOLEAN overTemp;
-  SM_BOOLEAN unrecoverableError;
-  SM_BOOLEAN cutterError;
-  SM_BOOLEAN mechError;
-  SM_BOOLEAN headThermistorError;
+    // printer status 2
+    SM_BOOLEAN overTemp;
+    SM_BOOLEAN unrecoverableError;
+    SM_BOOLEAN cutterError;
+    SM_BOOLEAN mechError;
+    SM_BOOLEAN headThermistorError;
 
-  // printer status 3
-  SM_BOOLEAN receiveBufferOverflow;
-  SM_BOOLEAN pageModeCmdError;
-  SM_BOOLEAN blackMarkError;
-  SM_BOOLEAN presenterPaperJamError;
-  SM_BOOLEAN headUpError;
-  SM_BOOLEAN voltageError;
+    // printer status 3
+    SM_BOOLEAN receiveBufferOverflow;
+    SM_BOOLEAN pageModeCmdError;
+    SM_BOOLEAN paperDetectionError;
+    SM_BOOLEAN blackMarkError;
+    SM_BOOLEAN jamError;
+    SM_BOOLEAN presenterPaperJamError;
+    SM_BOOLEAN headUpError;
+    SM_BOOLEAN voltageError;
 
-  // printer status 4
-  SM_BOOLEAN receiptBlackMarkDetection;
-  SM_BOOLEAN receiptPaperEmpty;
-  SM_BOOLEAN receiptPaperNearEmptyInner;
-  SM_BOOLEAN receiptPaperNearEmptyOuter;
+    // printer status 4
+    SM_BOOLEAN receiptBlackMarkDetection;
+    SM_BOOLEAN receiptPaperEmpty;
+    SM_BOOLEAN receiptPaperNearEmptyInner;
+    SM_BOOLEAN receiptPaperNearEmptyOuter;
 
-  // printer status 5
-  SM_BOOLEAN presenterPaperPresent;
-  SM_BOOLEAN peelerPaperPresent;
-  SM_BOOLEAN stackerFull;
-  SM_BOOLEAN slipTOF;
-  SM_BOOLEAN slipCOF;
-  SM_BOOLEAN slipBOF;
-  SM_BOOLEAN validationPaperPresent;
-  SM_BOOLEAN slipPaperPresent;
+    // printer status 5
+    SM_BOOLEAN paperPresent;
+    SM_BOOLEAN presenterPaperPresent;
+    SM_BOOLEAN peelerPaperPresent;
+    SM_BOOLEAN stackerFull;
+    SM_BOOLEAN slipTOF;
+    SM_BOOLEAN slipCOF;
+    SM_BOOLEAN slipBOF;
+    SM_BOOLEAN validationPaperPresent;
+    SM_BOOLEAN slipPaperPresent;
 
-  // printer status 6
-  SM_BOOLEAN etbAvailable;
-  UCHAR etbCounter;
+    // printer status 6
+    SM_BOOLEAN etbAvailable;
+    UCHAR etbCounter;
 
-  // printer status 7
-  UCHAR presenterState;
+    // printer status 7
+    UCHAR presenterState;
 
-  // printer status 10
-  UCHAR connectedInterface;
+    // printer status 10
+    UCHAR connectedInterface;
 
-  // raw
-  UINT32 rawLength;
-  UCHAR raw[63];
+    // raw
+    UINT32 rawLength;
+    UCHAR raw[63];
 } StarPrinterStatus_2;
 
 
@@ -393,7 +396,7 @@ STARIOPORT_API SM_BOOLEAN CALL_CONVENT BeginCheckedBlock(void * port, StarPrinte
                   or
                 SM_TRUE on success
 */
-STARIOPORT_API SM_BOOLEAN CALL_CONVENT BeginCheckedBlockEx(void * port, void * starPrinterStatus, UINT32 level);
+STARIOPORT_API SM_BOOLEAN CALL_CONVENT BeginCheckedBlockEx(void * port, void * starPrinterStatus, UINT32 level, int *resultCode);
 
 /*
     EndCheckedBlock
@@ -474,6 +477,10 @@ UINT32 GetEndCheckedBlockTimeoutMillis(void * port);
                timeoutMillis - timeout of endCheckedBlock[msec]
  */
 void SetEndCheckedBlockTimeoutMillis(void * port, UINT32 timeoutMillis);
+
+UINT32 GetHoldPrintTimeoutMillis(void * port);
+
+void SetHoldPrintTimeoutMillis(void * port, UINT32 timeoutMillis);
 
 #pragma mark Private
     

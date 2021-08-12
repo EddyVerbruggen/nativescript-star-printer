@@ -10,6 +10,7 @@ I'm using this wrapper to circumvent some pointer release issues when using {N}-
 - You can now open Xcode.
 
 ### Building the framework
+- At Build Settings > Excluded Architectures, add 'arm64'.
 - Run the target for simulator and device (disconnect the device to be sure), make sure to not only build for the active architecture.
 - Right-click the file in the Products folder and open in Finder.
 - In a Terminal `cd` to that folder, move up to the `Products` folder.

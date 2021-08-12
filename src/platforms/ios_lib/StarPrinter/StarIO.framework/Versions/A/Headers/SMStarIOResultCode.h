@@ -13,5 +13,6 @@ NS_ERROR_ENUM(SMStarIOResultCodeErrorDomain) {
     SMStarIOResultCodeSuccess        = 0,
     SMStarIOResultCodeFailedError    = -1,
     SMStarIOResultCodeInProcessError = -2,
+    SMStarIOResultCodePaperPresentError = -3,
     SMStarIOResultCodeInUseError     = -100,
 };

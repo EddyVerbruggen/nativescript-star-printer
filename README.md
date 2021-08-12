@@ -114,6 +114,15 @@ let commands = new SPCommands()
         true, // diffuse
         true // align center (set to 'false' to align left)
      )
+    // alternatively, you can use imagePositioned for a bit more control (on Android this behaves the same as 'image' though)
+    .imagePositioned(
+        image,
+        80, // width
+        20, // position
+        true, // both scale
+        true, // diffuse
+        true // align center (set to 'false' to align left)
+     )
     .alignCenter()
     .text("My Awesome Boutique").newLine()
     .text("In a shop near you").newLine()
