@@ -25,6 +25,16 @@
                               andBothScale:(BOOL)bothScale
                                andPosition:(NSInteger)position;
 
++ (NSData *)appendCodePage:(NSUInteger)type;
+
++ (NSData *)appendCodePageUTF8;
+
++ (NSData *)appendCodePageCP1252;
+
++ (NSData *)appendInternationalType:(NSUInteger)type;
+
++ (NSData *)appendInternationalTypeUSA;
+
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler;
 
 @end

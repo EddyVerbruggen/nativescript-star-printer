@@ -148,6 +148,76 @@ static StarIoExtManager *_starIoExtManager;
     return [builder.commands copy];
 }
 
++ (NSData *)appendCodePage:(NSUInteger)type {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarPRNT];
+    
+    [builder beginDocument];
+    
+    [builder appendCodePage:type];
+    
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
++ (NSData *)appendCodePageUTF8 {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarPRNT];
+    
+    [builder beginDocument];
+    
+    [builder appendCodePage:SCBCodePageTypeUTF8];
+
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
++ (NSData *)appendCodePageCP1252 {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarPRNT];
+    
+    [builder beginDocument];
+    
+    [builder appendCodePage:SCBCodePageTypeCP1252];
+    NSString *d;
+    [builder appendData:[d dataUsingEncoding:<#(NSStringEncoding)#>]
+    
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
+
++ (NSData *)appendInternationalType:(NSUInteger)type {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarPRNT];
+    
+    [builder beginDocument];
+    
+    [builder appendInternational:type];
+    
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
++ (NSData *)appendInternationalTypeUSA {
+    ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarPRNT];
+    
+    [builder beginDocument];
+    
+    [builder appendInternational:SCBInternationalTypeUSA];
+
+    NSLog(@"%s", "------int type USA set, list of types: -----");
+
+    NSLog(@"%lu", (unsigned long)SCBInternationalTypeJapan);
+    NSLog(@"%lu", (unsigned long)SCBInternationalTypeUK);
+    NSLog(@"%lu", (unsigned long)SCBInternationalTypeLegal);
+    NSLog(@"%lu", (unsigned long)SCBInternationalTypeGermany);
+
+    [builder endDocument];
+    
+    return [builder.commands copy];
+}
+
 + (void)sendCommands:(NSData *)commands toPort:(NSString *)portName onComplete:(void(^)(NSString* error))completionHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SMPort *port = nil;

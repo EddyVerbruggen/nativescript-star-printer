@@ -9,28 +9,47 @@ import { PrinterFont, PrinterOnlineStatus, PrinterPaperStatus, SPBarcodeCommand,
  * but not everything is exposed to the metadata, so we're not using that.
  */
 export class SPCommands extends SPCommandsCommon {
+  private static CODEPAGE_UTF8: Array<number> = [0x1b, 0x1d, 0x74, 0x80];
+  private static CODEPAGE_WINDOWSCP1252: Array<number> = [0x1b, 0x1d, 0x74, 0x04];
+
   private _commands: any;
+  private activeCodePage: Array<number> = SPCommands.CODEPAGE_UTF8;
+  private activeEncoding = NSUTF8StringEncoding;
 
   constructor() {
     super();
     this._commands = NSMutableData.data();
-    this.setCodepageUtf8();
+    this.resetCodepage();
     return this;
   }
 
-  private setCodepageUtf8(): void {
-    // set characterset here, so we can print beyond the ascii range
-    // UTF8 = hex(128) = dec(80) (see https://ascii.cl/conversion.htm)
-    this.appendBytes([0x1b, 0x1d, 0x74, 0x80]);
+  private resetCodepage(): void {
+    this.appendBytes(this.activeCodePage);
+  }
+
+  setCodepageUTF8(): SPCommandsCommon {
+    this.activeEncoding = NSUTF8StringEncoding;
+    this.activeCodePage = SPCommands.CODEPAGE_UTF8;
+    return this.appendBytes(this.activeCodePage);
+  }
+
+  setCodepageWindowsCP1252(): SPCommandsCommon {
+    this.activeEncoding = NSWindowsCP1252StringEncoding;
+    this.activeCodePage = SPCommands.CODEPAGE_WINDOWSCP1252;
+    return this.appendBytes(this.activeCodePage);
+  }
+
+  setCodepage(codePage: Array<number>): SPCommandsCommon {
+    this.activeCodePage = codePage;
+    return this.appendBytes(codePage);
   }
 
   setFont(font: PrinterFont): SPCommandsCommon {
     if (font === "default") {
-      this.appendBytes([0x1b, 0x1e, 0x46, 0x00]);
+      return this.appendBytes([0x1b, 0x1e, 0x46, 0x00]);
     } else {
-      this.appendBytes([0x1b, 0x1e, 0x46, 0x01]);
+      return this.appendBytes([0x1b, 0x1e, 0x46, 0x01]);
     }
-    return this;
   }
 
   text(value: string): SPCommandsCommon {
@@ -98,7 +117,7 @@ export class SPCommands extends SPCommandsCommon {
     this._commands.appendData(imageData);
 
     // reset codepage because the image alters it
-    this.setCodepageUtf8();
+    this.resetCodepage();
     return this;
   }
 
@@ -107,7 +126,7 @@ export class SPCommands extends SPCommandsCommon {
     this._commands.appendData(imageData);
 
     // reset codepage because the image alters it
-    this.setCodepageUtf8();
+    this.resetCodepage();
     return this;
   }
 
@@ -116,7 +135,7 @@ export class SPCommands extends SPCommandsCommon {
   }
 
   private appendData(text: string): SPCommandsCommon {
-    this._commands.appendData(NSString.stringWithString(text).dataUsingEncoding(NSUTF8StringEncoding));
+    this._commands.appendData(NSString.stringWithString(text).dataUsingEncoding(this.activeEncoding));
     return this;
   }
 
@@ -156,8 +175,8 @@ export class StarPrinter implements StarPrinterApi {
     });
   }
 
-  print(options: SPPrintOptions): Promise<any> {
-    return new Promise((resolve, reject) => {
+  print(options: SPPrintOptions): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
       try {
         this.initStarPrinter(options.portName).then((connected: boolean) => {
           if (!connected) {
@@ -240,8 +259,8 @@ export class StarPrinter implements StarPrinterApi {
     });
   }
 
-  openCashDrawer(options: SPOpenCashDrawerOptions): Promise<any> {
-    return new Promise((resolve, reject) => {
+  openCashDrawer(options: SPOpenCashDrawerOptions): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
       try {
         this.initStarPrinter(options.portName).then((connected: boolean) => {
           if (!connected) {

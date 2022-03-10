@@ -28,6 +28,10 @@ export abstract class SPCommandsCommon {
 
   abstract getCommands(): any;
 
+  abstract setCodepageUTF8(): SPCommandsCommon;
+
+  abstract setCodepageWindowsCP1252(): SPCommandsCommon;
+
   abstract text(value: string): SPCommandsCommon;
 
   abstract setFont(font: PrinterFont): SPCommandsCommon;

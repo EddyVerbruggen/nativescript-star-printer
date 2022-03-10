@@ -47,6 +47,16 @@ export class SPCommands extends SPCommandsCommon {
     return this;
   }
 
+  setCodepageUTF8(): SPCommandsCommon {
+    console.log("setCodepageUTF8 is not implemented for Android");
+    return this;
+  }
+
+  setCodepageWindowsCP1252(): SPCommandsCommon {
+    console.log("setCodepageWindowsCP1252 is not implemented for Android");
+    return this;
+  }
+
   setFont(font: PrinterFont): SPCommandsCommon {
     this.builder.appendFontStyle(font === "default" ? ICommandBuilder.FontStyleType.A : ICommandBuilder.FontStyleType.B);
     return this;

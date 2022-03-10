@@ -20,5 +20,13 @@ declare class TNSStarPrinter extends NSObject {
 
   static getBitmapWithFixedWidthCommandWithDiffusionAndCenterAlignmentAndWidthAndBothScaleAndPosition(image: UIImage, diffusion: boolean, centerAlignment: boolean, width: number, bothScale: boolean, position: number): NSData;
 
+  static appendCodePageUTF8(): NSData;
+
+  static appendCodePageCP1252(): NSData;
+
+  static appendCodePage(type: any): NSData;
+
+  static appendInternationalTypeUSA(): NSData;
+
   static sendCommandsToPortOnComplete(commands: NSData, portName: string, completionHandler: (p1: string) => void): void;
 }
